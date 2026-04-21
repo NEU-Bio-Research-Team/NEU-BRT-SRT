@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">BRT-SRT Lab Logo</title>
+  <desc id="desc">Stylized BRT-SRT monogram in blue circles</desc>
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D6EFD"/>
+      <stop offset="100%" stop-color="#0a58ca"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#e8f0fe"/>
+  <circle cx="64" cy="64" r="42" fill="url(#g)"/>
+  <text x="64" y="56" text-anchor="middle" font-family="Manrope, Inter, sans-serif" font-size="20" font-weight="800" fill="white">BRT</text>
+  <text x="64" y="78" text-anchor="middle" font-family="Manrope, Inter, sans-serif" font-size="18" font-weight="700" fill="white">SRT</text>
+</svg>

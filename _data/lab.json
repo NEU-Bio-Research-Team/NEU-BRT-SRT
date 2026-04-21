@@ -1,0 +1,35 @@
+{
+  "name": "Business Research & Smart Technology Laboratory",
+  "short_name": "BRT-SRT Lab",
+  "university": "National Economics University",
+  "address": "207 Giai Phong Road, Hai Ba Trung District, Hanoi, Vietnam",
+  "room": "Room 301, Building A1",
+  "email": "brt-srt@neu.edu.vn",
+  "phone": "+84-24-3628-XXXX",
+  "map_lat": 20.9988,
+  "map_lng": 105.8426,
+  "recruiting": true,
+  "apply_link": "mailto:brt-srt@neu.edu.vn?subject=Lab Application",
+  "research_areas": [
+    {
+      "title": "Business Analytics",
+      "icon": "📊",
+      "desc": "Data-driven insights for business strategy, market analysis, and decision support systems."
+    },
+    {
+      "title": "Smart Technology",
+      "icon": "🤖",
+      "desc": "AI, machine learning, and IoT applications for intelligent business solutions."
+    },
+    {
+      "title": "Digital Transformation",
+      "icon": "🌐",
+      "desc": "Research on digital transformation strategies and enterprise information systems."
+    },
+    {
+      "title": "Fintech & E-Commerce",
+      "icon": "💳",
+      "desc": "Financial technology innovation, e-payment systems, and digital marketplace research."
+    }
+  ]
+}

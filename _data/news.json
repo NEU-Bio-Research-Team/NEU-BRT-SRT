@@ -1,0 +1,74 @@
+[
+  {
+    "id": "news-2024-11-01",
+    "category": "Awards",
+    "date": "2024-11-01",
+    "title": "BRT-SRT Lab wins Best Research Paper Award at ICIS 2024",
+    "body": "We are proud to announce that our paper on Explainable AI for Credit Risk Assessment received the Best Research Paper Award at the International Conference on Information Systems (ICIS 2024) in Bangkok, Thailand. Congratulations to the entire team!",
+    "link": "",
+    "pinned": true
+  },
+  {
+    "id": "news-2024-10-15",
+    "category": "Publication",
+    "date": "2024-10-15",
+    "title": "New paper accepted in Expert Systems with Applications (IF: 8.5, Q1)",
+    "body": "Our paper 'Explainable AI for Credit Risk Assessment in Vietnamese Commercial Banks' has been accepted for publication in <em>Expert Systems with Applications</em>, a top-tier SCI journal with impact factor 8.5. Authors: Nguyen Van An, Le Minh Khoa, Do Quang Minh.",
+    "link": "https://doi.org/10.1016/j.eswa.2024.121823",
+    "pinned": false
+  },
+  {
+    "id": "news-2024-09-01",
+    "category": "Notice",
+    "date": "2024-09-01",
+    "title": "Recruiting PhD and MS students for Spring 2025 intake",
+    "body": "BRT-SRT Lab is currently accepting applications for PhD and MS positions starting Spring 2025. Research areas include AI for business, digital transformation, and fintech. Full scholarships are available for qualified PhD candidates. Contact us at brt-srt@neu.edu.vn.",
+    "link": "",
+    "pinned": false
+  },
+  {
+    "id": "news-2024-07-20",
+    "category": "Event",
+    "date": "2024-07-20",
+    "title": "Summer Workshop on Machine Learning for Business Analytics (July 20–22, 2024)",
+    "body": "BRT-SRT Lab hosted a 3-day intensive workshop on machine learning applications in business analytics. Over 80 students and researchers participated, with guest lectures from industry partners at FPT, Vietcombank, and Momo.",
+    "link": "",
+    "pinned": false
+  },
+  {
+    "id": "news-2024-05-10",
+    "category": "Publication",
+    "date": "2024-05-10",
+    "title": "Paper accepted in Journal of Business Research (IF: 11.3, Q1)",
+    "body": "Our paper 'Digital Transformation Maturity Assessment Framework for SMEs in Emerging Markets' has been accepted in the <em>Journal of Business Research</em>. This work is co-authored by Tran Thi Bich, Pham Thu Ha, and Nguyen Van An.",
+    "link": "https://doi.org/10.1016/j.jbusres.2024.114583",
+    "pinned": false
+  },
+  {
+    "id": "news-2024-03-15",
+    "category": "Event",
+    "date": "2024-03-15",
+    "title": "Lab visit by delegation from University of Economics Ho Chi Minh City",
+    "body": "We welcomed a research delegation from UEH to discuss potential collaboration on joint research projects in digital transformation and smart city applications. A memorandum of understanding (MOU) has been signed.",
+    "link": "",
+    "pinned": false
+  },
+  {
+    "id": "news-2023-12-20",
+    "category": "Awards",
+    "date": "2023-12-20",
+    "title": "Do Quang Minh receives NEU Outstanding Student Research Award 2023",
+    "body": "Congratulations to Do Quang Minh for receiving the NEU Outstanding Student Research Award for his work on deep learning models for financial fraud detection. This award recognizes exceptional research contributions by graduate students at National Economics University.",
+    "link": "",
+    "pinned": false
+  },
+  {
+    "id": "news-2023-10-01",
+    "category": "Notice",
+    "date": "2023-10-01",
+    "title": "BRT-SRT Lab launches new research project on AI Governance in Vietnam",
+    "body": "We are excited to announce a new 3-year research project funded by the Ministry of Science and Technology (MOST) on AI governance frameworks for Vietnamese enterprises. The project involves collaboration with 5 universities and 10 enterprise partners.",
+    "link": "",
+    "pinned": false
+  }
+]
