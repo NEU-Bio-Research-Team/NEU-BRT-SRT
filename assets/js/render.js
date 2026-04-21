@@ -9,18 +9,10 @@
  * @param {string} file — filename inside _data/ (e.g. 'members.json')
  */
 async function fetchData(file) {
-  const base = getBase();
-  const url = `${base}_data/${file}`;
+  const url = `./_data/${file}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to load ${url}: ${res.status}`);
   return res.json();
-}
-
-/** Derive base path so fetch works from any subdirectory depth. */
-function getBase() {
-  const path = window.location.pathname;
-  const depth = (path.match(/\//g) || []).length - 1;
-  return depth > 0 ? '../'.repeat(depth) : './';
 }
 
 /** Sanitize basic HTML (allow em, strong, a, br only). */
