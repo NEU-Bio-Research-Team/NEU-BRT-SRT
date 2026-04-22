@@ -532,7 +532,7 @@
 
 .member-photo-placeholder {
   width: 208px;
-  height: 208px;
+  height: 240px;
   border-radius: var(--radius-md);
   background: #F5F5F5;
   color: var(--text-muted);
