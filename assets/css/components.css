@@ -513,7 +513,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-5);
-  width: min(100%, 760px);
+  width: min(100%, 980px);
   padding: 24px 28px;
 }
 
@@ -522,8 +522,8 @@
 }
 
 .member-photo {
-  width: 96px;
-  height: 96px;
+  width: 208px;
+  height: 208px;
   border-radius: var(--radius-md);
   object-fit: cover;
   border: 1px solid #F0F0F0;
@@ -531,8 +531,8 @@
 }
 
 .member-photo-placeholder {
-  width: 96px;
-  height: 96px;
+  width: 208px;
+  height: 208px;
   border-radius: var(--radius-md);
   background: #F5F5F5;
   color: var(--text-muted);

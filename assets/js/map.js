@@ -82,8 +82,8 @@ let membersRole = 'All';
 
 const ROLE_ORDER = ['mentor', 'member'];
 const ROLE_LABELS = {
-  mentor: 'Giảng viên hướng dẫn',
-  member: 'Thành viên',
+  mentor: 'Mentors',
+  member: 'Members',
 };
 
 const TAB_LABELS = {
@@ -170,7 +170,7 @@ function normalizeRoleKey(member) {
   if (roleKey === 'mentor' || roleKey === 'member') return roleKey;
 
   const roleText = String(member.role || '').trim().toLowerCase();
-  if (roleText.includes('giảng viên hướng dẫn')) return 'mentor';
+  if (roleText.includes('mentor') || roleText.includes('supervisor')) return 'mentor';
   return 'member';
 }
 
@@ -194,19 +194,16 @@ function memberRowTemplate(member) {
 
   const metadataLines = [
     member.professional_level
-      ? `<p class="member-meta"><span class="member-meta-label">Trình độ chuyên môn:</span> ${sanitize(member.professional_level)}</p>`
+      ? `<p class="member-meta"><span class="member-meta-label">Professional Level:</span> ${sanitize(member.professional_level)}</p>`
       : '',
     member.department
-      ? `<p class="member-meta"><span class="member-meta-label">Khoa:</span> ${sanitize(member.department)}</p>`
+      ? `<p class="member-meta"><span class="member-meta-label">Faculty:</span> ${sanitize(member.department)}</p>`
       : '',
     member.research_scope
-      ? `<p class="member-meta"><span class="member-meta-label">Phạm vi nghiên cứu:</span> ${sanitize(member.research_scope)}</p>`
+      ? `<p class="member-meta"><span class="member-meta-label">Research Scope:</span> ${sanitize(member.research_scope)}</p>`
       : '',
     member.start_date
-      ? `<p class="member-meta"><span class="member-meta-label">Thời gian bắt đầu nghiên cứu:</span> ${sanitize(member.start_date)}</p>`
-      : '',
-    member.timestamp
-      ? `<p class="member-meta"><span class="member-meta-label">Dấu thời gian:</span> ${sanitize(member.timestamp)}</p>`
+      ? `<p class="member-meta"><span class="member-meta-label">Research Start Date:</span> ${sanitize(member.start_date)}</p>`
       : '',
   ].filter(Boolean).join('');
 

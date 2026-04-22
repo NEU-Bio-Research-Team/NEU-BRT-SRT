@@ -1,210 +1,201 @@
-[
-  {
-    "id": "ngo-thi-minh-phuong",
-    "timestamp": "22/04/2026 11:46:08",
-    "name": "Ngô Thị Minh Phương",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "International Economics",
-    "email": "11243142@st.neu.edu.vn",
-    "research_scope": "biology and finance",
-    "start_date": "08/02/2026",
-    "source_photo_url": "https://drive.google.com/open?id=1WfB_0EZj6R2mgmqMQAFF55wtoO1AqtkI",
-    "photo": "assets/images/members/Minh Phương.jpeg",
-    "team": "Stress Research Tean",
-    "teams": [
-      {
-        "code": "SRT",
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "pham-tran-phuong-linh",
-    "timestamp": "22/04/2026 11:46:15",
-    "name": "Phạm Trần Phương Linh",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "International Economics",
-    "email": "11244665@st.neu.edu.vn",
-    "research_scope": "Biology and Finance",
-    "start_date": "08/02/2026",
-    "source_photo_url": "https://drive.google.com/open?id=1zEtG5rZ9QxOTQ1ue84hAirrggSSMnTPQ",
-    "photo": "assets/images/members/Phương Linh.jpg",
-    "team": "Stress Research Team",
-    "teams": [
-      {
-        "code": "SRT",
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "nguyen-phuong-thao",
-    "timestamp": "22/04/2026 11:46:55",
-    "name": "Nguyễn Phương Thảo",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "International Economics",
-    "email": "11240203@st.neu.edu.vn",
-    "research_scope": "Biology and Finance",
-    "start_date": "08/02/2026",
-    "source_photo_url": "https://drive.google.com/open?id=1LazjYpq6p5YRSSdnMrHd_mOM3vcG3p4Z",
-    "photo": "assets/images/members/Phương Thảo.jpeg",
-    "team": "Stress Research Team",
-    "teams": [
-      {
-        "code": "SRT",
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "ngo-thai-hoa",
-    "timestamp": "22/04/2026 11:46:57",
-    "name": "Ngô Thái Hoà",
-    "professional_level": "Thạc sỹ",
-    "role": "Giảng viên hướng dẫn",
-    "role_key": "mentor",
-    "department": "FDA",
-    "email": "hoatn@neu.edu.vn",
-    "research_scope": "",
-    "start_date": "15/04/2026",
-    "source_photo_url": "https://drive.google.com/open?id=13eWH27bycyQVDe12MqwLF3Od7r0iOZkW",
-    "photo": "assets/images/members/Ngô Thái Hòa.png",
-    "team": "Stress Research Team",
-    "teams": [
-      {
-        "code": "SRT",
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "nguyen-quang-minh",
-    "timestamp": "22/04/2026 11:48:32",
-    "name": "Nguyễn Quang Minh",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "Faculty of Data Science and Artificial Intelligence",
-    "email": "minhngg.qu@gmail.com",
-    "research_scope": "AI in Medical & Finance, LLM, Agentic Framework",
-    "start_date": "16/09/2025",
-    "source_photo_url": "https://drive.google.com/open?id=13VCh9isfFLXOGJRQ-5ZJNB0uar26TBLD",
-    "photo": "assets/images/members/Nguyễn Quang Minh.jpg",
-    "team": "Bio Research Team - Stress Research Team",
-    "teams": [
-      {
-        "code": "BRT",
-        "name": "BRT",
-        "image": "assets/images/BRT.jpg"
-      },
-      {
-        "code": "SRT",
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "le-duc-minh",
-    "timestamp": "22/04/2026 11:56:46",
-    "name": "Lê Đức Minh",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "Faculty of Data Science and Artifucial Intelligence",
-    "email": "leducminh290506@gmail.com",
-    "research_scope": "Deep Learning",
-    "start_date": "16/09/2025",
-    "source_photo_url": "https://drive.google.com/open?id=1fWax5k4UIZyW0aF6I1txnA9NLfP3h-oJ",
-    "photo": "assets/images/members/Lê Đức Minh.jpeg",
-    "team": "Bio Research Team",
-    "teams": [
-      {
-        "code": "BRT",
-        "name": "BRT",
-        "image": "assets/images/BRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "nguyen-thuy-quynh",
-    "timestamp": "22/04/2026 12:00:13",
-    "name": "Nguyễn Thuý Quỳnh",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "Faculty of Data Science and Artificial Intelligence",
-    "email": "11247346@st.neu.edu.vn",
-    "research_scope": "Medical AI",
-    "start_date": "16/09/2025",
-    "source_photo_url": "https://drive.google.com/open?id=1NaGRaFe43sdJPcryIrRAxuCg2EfUpQ5V",
-    "photo": "assets/images/members/Nguyễn Thúy Quỳnh.jpeg",
-    "team": "Bio Research Team",
-    "teams": [
-      {
-        "code": "BRT",
-        "name": "BRT",
-        "image": "assets/images/BRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "trong-nghia-nguyen",
-    "timestamp": "22/04/2026 12:13:19",
-    "name": "Trong-Nghia Nguyen",
-    "professional_level": "Tiến sỹ",
-    "role": "Giảng viên hướng dẫn",
-    "role_key": "mentor",
-    "department": "Faculty of Data Science and Artificial Intelligence",
-    "email": "nghiant@neu.edu.vn",
-    "research_scope": "Medical Imaging, Biomedical Signal & Bioinformatics",
-    "start_date": "01/01/2019",
-    "source_photo_url": "https://drive.google.com/open?id=1fhfrh8fyRp-Pst_KUjlS9Uw-AuQvujT6",
-    "photo": "assets/images/members/NghiaNguyen - Nghia Nguyen.jpg",
-    "team": "Bio Research Team - Stress Research Team",
-    "teams": [
-      {
-        "code": "BRT",
-        "name": "BRT",
-        "image": "assets/images/BRT.jpg"
-      },
-      {
-        "code": "SRT",
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ]
-  },
-  {
-    "id": "nguyen-ho-nhat-minh",
-    "timestamp": "22/04/2026 12:48:10",
-    "name": "Nguyễn Hồ Nhật Minh",
-    "professional_level": "Sinh viên",
-    "role": "Thành viên",
-    "role_key": "member",
-    "department": "Faculty of Data Science and Artificial Intelligence",
-    "email": "minhhbbiim123@gmail.com",
-    "research_scope": "Biomedical AI, LLMs, Machine Learning and Deep Learning, Time-series & Signal Processing and Predictive Modeling",
-    "start_date": "16/09/2025",
-    "source_photo_url": "https://drive.google.com/open?id=169JuQ83qpjew1I_4kXgA9gnWtZUH3RcJ",
-    "photo": "assets/images/members/Nguyễn Hồ Nhật Minh.jpg",
-    "team": "Bio Research Team",
-    "teams": [
-      {
-        "code": "BRT",
-        "name": "BRT",
-        "image": "assets/images/BRT.jpg"
-      }
-    ]
-  }
+﻿[
+    {
+        "id":  "ngo-thi-minh-phuong",
+        "name":  "Ngô Thị Minh Phương",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "International Economics",
+        "email":  "11243142@st.neu.edu.vn",
+        "research_scope":  "Biology and Finance",
+        "start_date":  "08/02/2026",
+        "source_photo_url":  "https://drive.google.com/open?id=1WfB_0EZj6R2mgmqMQAFF55wtoO1AqtkI",
+        "photo":  "assets/images/members/Minh Phương.jpeg",
+        "team":  "Stress Research Team",
+        "teams":  [
+                      {
+                          "code":  "SRT",
+                          "name":  "SRT",
+                          "image":  "assets/images/SRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "pham-tran-phuong-linh",
+        "name":  "Phạm Trần Phương Linh",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "International Economics",
+        "email":  "11244665@st.neu.edu.vn",
+        "research_scope":  "Biology and Finance",
+        "start_date":  "08/02/2026",
+        "source_photo_url":  "https://drive.google.com/open?id=1zEtG5rZ9QxOTQ1ue84hAirrggSSMnTPQ",
+        "photo":  "assets/images/members/Phương Linh.jpg",
+        "team":  "Stress Research Team",
+        "teams":  [
+                      {
+                          "code":  "SRT",
+                          "name":  "SRT",
+                          "image":  "assets/images/SRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "nguyen-phuong-thao",
+        "name":  "Nguyễn Phương Thảo",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "International Economics",
+        "email":  "11240203@st.neu.edu.vn",
+        "research_scope":  "Biology and Finance",
+        "start_date":  "08/02/2026",
+        "source_photo_url":  "https://drive.google.com/open?id=1LazjYpq6p5YRSSdnMrHd_mOM3vcG3p4Z",
+        "photo":  "assets/images/members/Phương Thảo.jpeg",
+        "team":  "Stress Research Team",
+        "teams":  [
+                      {
+                          "code":  "SRT",
+                          "name":  "SRT",
+                          "image":  "assets/images/SRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "ngo-thai-hoa",
+        "name":  "Ngô Thái Hoà",
+        "professional_level":  "Master\u0027s",
+        "role":  "Mentor",
+        "role_key":  "mentor",
+        "department":  "FDA",
+        "email":  "hoatn@neu.edu.vn",
+        "research_scope":  "",
+        "start_date":  "15/04/2026",
+        "source_photo_url":  "https://drive.google.com/open?id=13eWH27bycyQVDe12MqwLF3Od7r0iOZkW",
+        "photo":  "assets/images/members/Ngô Thái Hòa.png",
+        "team":  "Stress Research Team",
+        "teams":  [
+                      {
+                          "code":  "SRT",
+                          "name":  "SRT",
+                          "image":  "assets/images/SRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "nguyen-quang-minh",
+        "name":  "Nguyễn Quang Minh",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "Faculty of Data Science and Artificial Intelligence",
+        "email":  "minhngg.qu@gmail.com",
+        "research_scope":  "AI in Medical \u0026 Finance, LLM, Agentic Framework",
+        "start_date":  "16/09/2025",
+        "source_photo_url":  "https://drive.google.com/open?id=13VCh9isfFLXOGJRQ-5ZJNB0uar26TBLD",
+        "photo":  "assets/images/members/Nguyễn Quang Minh.jpg",
+        "team":  "Bio Research Team - Stress Research Team",
+        "teams":  [
+                      {
+                          "code":  "BRT",
+                          "name":  "BRT",
+                          "image":  "assets/images/BRT.jpg"
+                      },
+                      {
+                          "code":  "SRT",
+                          "name":  "SRT",
+                          "image":  "assets/images/SRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "le-duc-minh",
+        "name":  "Lê Đức Minh",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "Faculty of Data Science and Artificial Intelligence",
+        "email":  "leducminh290506@gmail.com",
+        "research_scope":  "Deep Learning",
+        "start_date":  "16/09/2025",
+        "source_photo_url":  "https://drive.google.com/open?id=1fWax5k4UIZyW0aF6I1txnA9NLfP3h-oJ",
+        "photo":  "assets/images/members/Lê Đức Minh.jpeg",
+        "team":  "Bio Research Team",
+        "teams":  [
+                      {
+                          "code":  "BRT",
+                          "name":  "BRT",
+                          "image":  "assets/images/BRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "nguyen-thuy-quynh",
+        "name":  "Nguyễn Thuý Quỳnh",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "Faculty of Data Science and Artificial Intelligence",
+        "email":  "11247346@st.neu.edu.vn",
+        "research_scope":  "Medical AI",
+        "start_date":  "16/09/2025",
+        "source_photo_url":  "https://drive.google.com/open?id=1NaGRaFe43sdJPcryIrRAxuCg2EfUpQ5V",
+        "photo":  "assets/images/members/Nguyễn Thúy Quỳnh.jpeg",
+        "team":  "Bio Research Team",
+        "teams":  [
+                      {
+                          "code":  "BRT",
+                          "name":  "BRT",
+                          "image":  "assets/images/BRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "trong-nghia-nguyen",
+        "name":  "Trong-Nghia Nguyen",
+        "professional_level":  "PhD",
+        "role":  "Mentor",
+        "role_key":  "mentor",
+        "department":  "Faculty of Data Science and Artificial Intelligence",
+        "email":  "nghiant@neu.edu.vn",
+        "research_scope":  "Medical Imaging, Biomedical Signal \u0026 Bioinformatics",
+        "start_date":  "01/01/2019",
+        "source_photo_url":  "https://drive.google.com/open?id=1fhfrh8fyRp-Pst_KUjlS9Uw-AuQvujT6",
+        "photo":  "assets/images/members/NghiaNguyen - Nghia Nguyen.jpg",
+        "team":  "Bio Research Team - Stress Research Team",
+        "teams":  [
+                      {
+                          "code":  "BRT",
+                          "name":  "BRT",
+                          "image":  "assets/images/BRT.jpg"
+                      },
+                      {
+                          "code":  "SRT",
+                          "name":  "SRT",
+                          "image":  "assets/images/SRT.jpg"
+                      }
+                  ]
+    },
+    {
+        "id":  "nguyen-ho-nhat-minh",
+        "name":  "Nguyễn Hồ Nhật Minh",
+        "professional_level":  "Student",
+        "role":  "Member",
+        "role_key":  "member",
+        "department":  "Faculty of Data Science and Artificial Intelligence",
+        "email":  "minhhbbiim123@gmail.com",
+        "research_scope":  "Biomedical AI, LLMs, Machine Learning and Deep Learning, Time-series \u0026 Signal Processing and Predictive Modeling",
+        "start_date":  "16/09/2025",
+        "source_photo_url":  "https://drive.google.com/open?id=169JuQ83qpjew1I_4kXgA9gnWtZUH3RcJ",
+        "photo":  "assets/images/members/Nguyễn Hồ Nhật Minh.jpg",
+        "team":  "Bio Research Team",
+        "teams":  [
+                      {
+                          "code":  "BRT",
+                          "name":  "BRT",
+                          "image":  "assets/images/BRT.jpg"
+                      }
+                  ]
+    }
 ]
