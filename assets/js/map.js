@@ -77,17 +77,18 @@ async function initContactMap() {
 
 /* ---------------- MEMBERS PAGE ---------------- */
 let allMembers = [];
-let membersTab = 'current';
-let membersLevel = 'All';
+let membersTab = 'bio';
+let membersRole = 'All';
 
-const ROLE_ORDER = ['professor', 'research-professor', 'phd', 'ms', 'undergrad', 'visiting'];
+const ROLE_ORDER = ['mentor', 'member'];
 const ROLE_LABELS = {
-  professor: 'Professor',
-  'research-professor': 'Research Professor',
-  phd: 'PhD Students',
-  ms: 'MS Students',
-  undergrad: 'Undergrad',
-  visiting: 'Visiting',
+  mentor: 'Giảng viên hướng dẫn',
+  member: 'Thành viên',
+};
+
+const TAB_LABELS = {
+  bio: 'Bio',
+  finance: 'Finance',
 };
 
 async function initMembersPage() {
@@ -108,10 +109,10 @@ async function initMembersPage() {
     });
   });
 
-  const levelSelect = document.querySelector('#member-level-filter');
-  if (levelSelect) {
-    levelSelect.addEventListener('change', () => {
-      membersLevel = levelSelect.value;
+  const roleSelect = document.querySelector('#member-role-filter');
+  if (roleSelect) {
+    roleSelect.addEventListener('change', () => {
+      membersRole = roleSelect.value;
       renderMembersPage();
     });
   }
@@ -136,6 +137,7 @@ function normalizeMemberTeams(teams) {
         return {
           name: inferTeamNameFromImage(image),
           image,
+          code: inferTeamCode({ image }),
         };
       }
 
@@ -144,18 +146,70 @@ function normalizeMemberTeams(teams) {
       const image = String(team.image || team.src || '').trim();
       if (!image) return null;
 
+      const name = String(team.name || team.label || inferTeamNameFromImage(image)).trim();
+      const code = String(team.code || inferTeamCode({ name, image })).trim().toUpperCase();
+
       return {
-        name: String(team.name || team.label || inferTeamNameFromImage(image)).trim(),
+        name,
         image,
+        code,
       };
     })
     .filter(Boolean);
 }
 
-function memberRowTemplate(member, isAlumni) {
-  const photo = member.photo || '';
-  const role = member.role || ROLE_LABELS[member.level] || '';
+function inferTeamCode(team) {
+  const combined = `${team.code || ''} ${team.name || ''} ${team.image || ''}`.toLowerCase();
+  if (/brt|bio/.test(combined)) return 'BRT';
+  if (/srt|stress|finance/.test(combined)) return 'SRT';
+  return '';
+}
+
+function normalizeRoleKey(member) {
+  const roleKey = String(member.role_key || '').trim().toLowerCase();
+  if (roleKey === 'mentor' || roleKey === 'member') return roleKey;
+
+  const roleText = String(member.role || '').trim().toLowerCase();
+  if (roleText.includes('giảng viên hướng dẫn')) return 'mentor';
+  return 'member';
+}
+
+function memberHasTeam(member, targetTeamCode) {
   const teams = normalizeMemberTeams(member.teams);
+  return teams.some((team) => team.code === targetTeamCode);
+}
+
+function memberInTab(member, tab) {
+  if (tab === 'bio') return memberHasTeam(member, 'BRT');
+  if (tab === 'finance') return memberHasTeam(member, 'SRT');
+  return true;
+}
+
+function memberRowTemplate(member) {
+  const photo = member.photo || '';
+  const photoSrc = photo ? encodeURI(photo) : '';
+  const roleKey = normalizeRoleKey(member);
+  const role = member.role || ROLE_LABELS[roleKey] || '';
+  const teams = normalizeMemberTeams(member.teams);
+
+  const metadataLines = [
+    member.professional_level
+      ? `<p class="member-meta"><span class="member-meta-label">Trình độ chuyên môn:</span> ${sanitize(member.professional_level)}</p>`
+      : '',
+    member.department
+      ? `<p class="member-meta"><span class="member-meta-label">Khoa:</span> ${sanitize(member.department)}</p>`
+      : '',
+    member.research_scope
+      ? `<p class="member-meta"><span class="member-meta-label">Phạm vi nghiên cứu:</span> ${sanitize(member.research_scope)}</p>`
+      : '',
+    member.start_date
+      ? `<p class="member-meta"><span class="member-meta-label">Thời gian bắt đầu nghiên cứu:</span> ${sanitize(member.start_date)}</p>`
+      : '',
+    member.timestamp
+      ? `<p class="member-meta"><span class="member-meta-label">Dấu thời gian:</span> ${sanitize(member.timestamp)}</p>`
+      : '',
+  ].filter(Boolean).join('');
+
   const teamMarkup = teams.length
     ? `
       <div class="member-teams">
@@ -164,7 +218,7 @@ function memberRowTemplate(member, isAlumni) {
           ${teams
             .map((team) => `
               <span class="member-team-item" title="${sanitize(team.name)}">
-                <img src="${sanitize(team.image)}" alt="${sanitize(team.name)} logo" loading="lazy" onerror="this.closest('.member-team-item').style.display='none'">
+                <img src="${sanitize(encodeURI(team.image))}" alt="${sanitize(team.name)} logo" loading="lazy" onerror="this.closest('.member-team-item').style.display='none'">
                 <span class="member-team-name">${sanitize(team.name)}</span>
               </span>`)
             .join('')}
@@ -173,25 +227,20 @@ function memberRowTemplate(member, isAlumni) {
     : '';
 
   return `
-    <article class="card member-row ${isAlumni ? 'is-alumni' : ''}">
-      ${photo
-        ? `<img class="member-photo" src="${photo}" alt="${sanitize(member.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
+    <article class="card member-row">
+      ${photoSrc
+        ? `<img class="member-photo" src="${sanitize(photoSrc)}" alt="${sanitize(member.name)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'">
            <div class="member-photo-placeholder" style="display:none">M</div>`
         : `<div class="member-photo-placeholder">M</div>`}
       <div class="member-main">
         <h3 class="member-name">${sanitize(member.name)}</h3>
         <p class="member-role">${sanitize(role)}</p>
-        ${member.department ? `<p class="member-dept">${sanitize(member.department)}</p>` : ''}
-        ${member.affiliation ? `<p class="member-affiliation">${sanitize(member.affiliation)}</p>` : ''}
+        ${metadataLines}
         ${teamMarkup}
-        ${isAlumni && member.graduated ? `<p class="member-grad">Graduation year: ${sanitize(member.graduated)}</p>` : ''}
       </div>
       <div class="member-links">
         ${member.email ? `<a href="mailto:${member.email}" aria-label="Email ${sanitize(member.name)}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </a>` : ''}
-        ${member.scholar ? `<a href="${member.scholar}" target="_blank" rel="noopener noreferrer" aria-label="Scholar ${sanitize(member.name)}">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
         </a>` : ''}
       </div>
     </article>`;
@@ -201,9 +250,9 @@ function renderMembersPage() {
   const container = document.querySelector('#members-container');
   if (!container) return;
 
-  let list = allMembers.filter((m) => m.category === membersTab);
-  if (membersLevel !== 'All') {
-    list = list.filter((m) => m.level === membersLevel);
+  let list = allMembers.filter((member) => memberInTab(member, membersTab));
+  if (membersRole !== 'All') {
+    list = list.filter((member) => normalizeRoleKey(member) === membersRole);
   }
 
   if (list.length === 0) {
@@ -213,16 +262,16 @@ function renderMembersPage() {
         <p class="empty-state__text">No members found for this filter.</p>
       </div>`;
     const countEl = document.querySelector('#members-count');
-    if (countEl) countEl.textContent = '0 members';
+    if (countEl) countEl.textContent = `0 members in ${TAB_LABELS[membersTab] || 'this tab'}`;
     return;
   }
 
   const groupedMarkup = ROLE_ORDER
-    .filter((level) => list.some((m) => m.level === level))
-    .map((level) => {
-      const group = list.filter((m) => m.level === level);
-      const title = ROLE_LABELS[level] || level;
-      const rows = group.map((m) => memberRowTemplate(m, membersTab === 'alumni')).join('');
+    .filter((roleKey) => list.some((member) => normalizeRoleKey(member) === roleKey))
+    .map((roleKey) => {
+      const group = list.filter((member) => normalizeRoleKey(member) === roleKey);
+      const title = ROLE_LABELS[roleKey] || roleKey;
+      const rows = group.map((member) => memberRowTemplate(member)).join('');
 
       return `
         <section class="member-group">
@@ -239,5 +288,5 @@ function renderMembersPage() {
   container.innerHTML = `<div class="member-groups">${groupedMarkup}</div>`;
 
   const countEl = document.querySelector('#members-count');
-  if (countEl) countEl.textContent = `${list.length} member${list.length !== 1 ? 's' : ''}`;
+  if (countEl) countEl.textContent = `${list.length} member${list.length !== 1 ? 's' : ''} in ${TAB_LABELS[membersTab] || 'this tab'}`;
 }

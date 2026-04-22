@@ -569,6 +569,18 @@
   color: var(--text-muted);
 }
 
+.member-meta {
+  margin-top: 4px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.member-meta-label {
+  color: var(--text-body);
+  font-weight: var(--fw-semibold);
+}
+
 .member-teams {
   margin-top: var(--space-3);
   display: flex;

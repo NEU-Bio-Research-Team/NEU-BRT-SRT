@@ -1,6 +1,0 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="Member photo placeholder">
-  <rect width="240" height="240" fill="#e8f0fe"/>
-  <circle cx="120" cy="90" r="44" fill="#0D6EFD" opacity="0.25"/>
-  <path d="M45 210c10-40 43-64 75-64s65 24 75 64" fill="#0D6EFD" opacity="0.25"/>
-  <text x="120" y="226" text-anchor="middle" fill="#0D6EFD" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700">BRT-SRT LAB</text>
-</svg>

@@ -1,200 +1,210 @@
 [
   {
-    "id": "prof-nguyen",
-    "name": "Prof. Nguyen Van An",
-    "role": "Laboratory Director",
-    "category": "current",
-    "level": "professor",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/prof-nguyen.svg",
+    "id": "ngo-thi-minh-phuong",
+    "timestamp": "22/04/2026 11:46:08",
+    "name": "Ngô Thị Minh Phương",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "International Economics",
+    "email": "11243142@st.neu.edu.vn",
+    "research_scope": "biology and finance",
+    "start_date": "08/02/2026",
+    "source_photo_url": "https://drive.google.com/open?id=1WfB_0EZj6R2mgmqMQAFF55wtoO1AqtkI",
+    "photo": "assets/images/members/Minh Phương.jpeg",
+    "team": "Stress Research Tean",
     "teams": [
       {
+        "code": "SRT",
+        "name": "SRT",
+        "image": "assets/images/SRT.jpg"
+      }
+    ]
+  },
+  {
+    "id": "pham-tran-phuong-linh",
+    "timestamp": "22/04/2026 11:46:15",
+    "name": "Phạm Trần Phương Linh",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "International Economics",
+    "email": "11244665@st.neu.edu.vn",
+    "research_scope": "Biology and Finance",
+    "start_date": "08/02/2026",
+    "source_photo_url": "https://drive.google.com/open?id=1zEtG5rZ9QxOTQ1ue84hAirrggSSMnTPQ",
+    "photo": "assets/images/members/Phương Linh.jpg",
+    "team": "Stress Research Team",
+    "teams": [
+      {
+        "code": "SRT",
+        "name": "SRT",
+        "image": "assets/images/SRT.jpg"
+      }
+    ]
+  },
+  {
+    "id": "nguyen-phuong-thao",
+    "timestamp": "22/04/2026 11:46:55",
+    "name": "Nguyễn Phương Thảo",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "International Economics",
+    "email": "11240203@st.neu.edu.vn",
+    "research_scope": "Biology and Finance",
+    "start_date": "08/02/2026",
+    "source_photo_url": "https://drive.google.com/open?id=1LazjYpq6p5YRSSdnMrHd_mOM3vcG3p4Z",
+    "photo": "assets/images/members/Phương Thảo.jpeg",
+    "team": "Stress Research Team",
+    "teams": [
+      {
+        "code": "SRT",
+        "name": "SRT",
+        "image": "assets/images/SRT.jpg"
+      }
+    ]
+  },
+  {
+    "id": "ngo-thai-hoa",
+    "timestamp": "22/04/2026 11:46:57",
+    "name": "Ngô Thái Hoà",
+    "professional_level": "Thạc sỹ",
+    "role": "Giảng viên hướng dẫn",
+    "role_key": "mentor",
+    "department": "FDA",
+    "email": "hoatn@neu.edu.vn",
+    "research_scope": "",
+    "start_date": "15/04/2026",
+    "source_photo_url": "https://drive.google.com/open?id=13eWH27bycyQVDe12MqwLF3Od7r0iOZkW",
+    "photo": "assets/images/members/Ngô Thái Hòa.png",
+    "team": "Stress Research Team",
+    "teams": [
+      {
+        "code": "SRT",
+        "name": "SRT",
+        "image": "assets/images/SRT.jpg"
+      }
+    ]
+  },
+  {
+    "id": "nguyen-quang-minh",
+    "timestamp": "22/04/2026 11:48:32",
+    "name": "Nguyễn Quang Minh",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "Faculty of Data Science and Artificial Intelligence",
+    "email": "minhngg.qu@gmail.com",
+    "research_scope": "AI in Medical & Finance, LLM, Agentic Framework",
+    "start_date": "16/09/2025",
+    "source_photo_url": "https://drive.google.com/open?id=13VCh9isfFLXOGJRQ-5ZJNB0uar26TBLD",
+    "photo": "assets/images/members/Nguyễn Quang Minh.jpg",
+    "team": "Bio Research Team - Stress Research Team",
+    "teams": [
+      {
+        "code": "BRT",
         "name": "BRT",
         "image": "assets/images/BRT.jpg"
       },
       {
+        "code": "SRT",
         "name": "SRT",
         "image": "assets/images/SRT.jpg"
       }
-    ],
-    "email": "nguyenvana@neu.edu.vn",
-    "scholar": "https://scholar.google.com/",
-    "homepage": "",
-    "bio": "Research interests: Business Intelligence, Data Mining, Decision Support Systems.",
-    "joined": "2010",
-    "graduated": null
+    ]
   },
   {
-    "id": "dr-tran",
-    "name": "Dr. Tran Thi Bich",
-    "role": "Research Professor",
-    "category": "current",
-    "level": "research-professor",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/dr-tran.svg",
+    "id": "le-duc-minh",
+    "timestamp": "22/04/2026 11:56:46",
+    "name": "Lê Đức Minh",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "Faculty of Data Science and Artifucial Intelligence",
+    "email": "leducminh290506@gmail.com",
+    "research_scope": "Deep Learning",
+    "start_date": "16/09/2025",
+    "source_photo_url": "https://drive.google.com/open?id=1fWax5k4UIZyW0aF6I1txnA9NLfP3h-oJ",
+    "photo": "assets/images/members/Lê Đức Minh.jpeg",
+    "team": "Bio Research Team",
     "teams": [
       {
+        "code": "BRT",
         "name": "BRT",
         "image": "assets/images/BRT.jpg"
       }
-    ],
-    "email": "tranthib@neu.edu.vn",
-    "scholar": "https://scholar.google.com/",
-    "homepage": "",
-    "bio": "Specializing in Fintech, blockchain applications, and digital payment systems.",
-    "joined": "2015",
-    "graduated": null
+    ]
   },
   {
-    "id": "le-minh-khoa",
-    "name": "Le Minh Khoa",
-    "role": "PhD Student",
-    "category": "current",
-    "level": "phd",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/le-minh-khoa.svg",
+    "id": "nguyen-thuy-quynh",
+    "timestamp": "22/04/2026 12:00:13",
+    "name": "Nguyễn Thuý Quỳnh",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "Faculty of Data Science and Artificial Intelligence",
+    "email": "11247346@st.neu.edu.vn",
+    "research_scope": "Medical AI",
+    "start_date": "16/09/2025",
+    "source_photo_url": "https://drive.google.com/open?id=1NaGRaFe43sdJPcryIrRAxuCg2EfUpQ5V",
+    "photo": "assets/images/members/Nguyễn Thúy Quỳnh.jpeg",
+    "team": "Bio Research Team",
     "teams": [
       {
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
+        "code": "BRT",
+        "name": "BRT",
+        "image": "assets/images/BRT.jpg"
       }
-    ],
-    "email": "leminhkhoa@neu.edu.vn",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Research: AI-driven recommendation systems for e-commerce platforms.",
-    "joined": "2022",
-    "graduated": null
+    ]
   },
   {
-    "id": "pham-thu-ha",
-    "name": "Pham Thu Ha",
-    "role": "PhD Student",
-    "category": "current",
-    "level": "phd",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/pham-thu-ha.svg",
-    "email": "phamthuha@neu.edu.vn",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Research: Digital transformation maturity models for Vietnamese SMEs.",
-    "joined": "2022",
-    "graduated": null
-  },
-  {
-    "id": "do-quang-minh",
-    "name": "Do Quang Minh",
-    "role": "MS Student",
-    "category": "current",
-    "level": "ms",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/do-quang-minh.svg",
+    "id": "trong-nghia-nguyen",
+    "timestamp": "22/04/2026 12:13:19",
+    "name": "Trong-Nghia Nguyen",
+    "professional_level": "Tiến sỹ",
+    "role": "Giảng viên hướng dẫn",
+    "role_key": "mentor",
+    "department": "Faculty of Data Science and Artificial Intelligence",
+    "email": "nghiant@neu.edu.vn",
+    "research_scope": "Medical Imaging, Biomedical Signal & Bioinformatics",
+    "start_date": "01/01/2019",
+    "source_photo_url": "https://drive.google.com/open?id=1fhfrh8fyRp-Pst_KUjlS9Uw-AuQvujT6",
+    "photo": "assets/images/members/NghiaNguyen - Nghia Nguyen.jpg",
+    "team": "Bio Research Team - Stress Research Team",
     "teams": [
       {
+        "code": "BRT",
         "name": "BRT",
         "image": "assets/images/BRT.jpg"
       },
       {
+        "code": "SRT",
         "name": "SRT",
         "image": "assets/images/SRT.jpg"
       }
-    ],
-    "email": "doquangminh@neu.edu.vn",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Thesis: Machine learning models for credit risk assessment in Vietnamese banks.",
-    "joined": "2023",
-    "graduated": null
+    ]
   },
   {
-    "id": "vu-lan-anh",
-    "name": "Vu Lan Anh",
-    "role": "MS Student",
-    "category": "current",
-    "level": "ms",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/vu-lan-anh.svg",
+    "id": "nguyen-ho-nhat-minh",
+    "timestamp": "22/04/2026 12:48:10",
+    "name": "Nguyễn Hồ Nhật Minh",
+    "professional_level": "Sinh viên",
+    "role": "Thành viên",
+    "role_key": "member",
+    "department": "Faculty of Data Science and Artificial Intelligence",
+    "email": "minhhbbiim123@gmail.com",
+    "research_scope": "Biomedical AI, LLMs, Machine Learning and Deep Learning, Time-series & Signal Processing and Predictive Modeling",
+    "start_date": "16/09/2025",
+    "source_photo_url": "https://drive.google.com/open?id=169JuQ83qpjew1I_4kXgA9gnWtZUH3RcJ",
+    "photo": "assets/images/members/Nguyễn Hồ Nhật Minh.jpg",
+    "team": "Bio Research Team",
     "teams": [
       {
+        "code": "BRT",
         "name": "BRT",
         "image": "assets/images/BRT.jpg"
       }
-    ],
-    "email": "vulananh@neu.edu.vn",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Thesis: Social media sentiment analysis for brand monitoring.",
-    "joined": "2023",
-    "graduated": null
-  },
-  {
-    "id": "nguyen-bao-long",
-    "name": "Nguyen Bao Long",
-    "role": "Undergraduate Researcher",
-    "category": "current",
-    "level": "undergrad",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/nguyen-bao-long.svg",
-    "teams": [
-      {
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ],
-    "email": "nguyenbaolong@neu.edu.vn",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Research: Developing a chatbot for customer service automation.",
-    "joined": "2024",
-    "graduated": null
-  },
-  {
-    "id": "hoang-duc-trung",
-    "name": "Hoang Duc Trung",
-    "role": "PhD Graduate",
-    "category": "alumni",
-    "level": "phd",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/hoang-duc-trung.svg",
-    "email": "hoangductrung@gmail.com",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Dissertation: Knowledge graph applications for business intelligence. Now at FPT Software.",
-    "joined": "2018",
-    "graduated": "2022"
-  },
-  {
-    "id": "mai-phuong-thao",
-    "name": "Mai Phuong Thao",
-    "role": "MS Graduate",
-    "category": "alumni",
-    "level": "ms",
-    "department": "Faculty of Information Systems",
-    "affiliation": "National Economics University",
-    "photo": "assets/images/members/mai-phuong-thao.svg",
-    "teams": [
-      {
-        "name": "BRT",
-        "image": "assets/images/BRT.jpg"
-      },
-      {
-        "name": "SRT",
-        "image": "assets/images/SRT.jpg"
-      }
-    ],
-    "email": "maiphuongthao@gmail.com",
-    "scholar": "",
-    "homepage": "",
-    "bio": "Thesis: Predicting student performance using learning analytics. Now at VietinBank.",
-    "joined": "2020",
-    "graduated": "2022"
+    ]
   }
 ]
