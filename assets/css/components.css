@@ -511,7 +511,7 @@
 
 .member-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-5);
   width: min(100%, 980px);
   padding: 24px 28px;
@@ -522,17 +522,21 @@
 }
 
 .member-photo {
-  width: 208px;
-  height: 208px;
+  width: min(100%, 240px);
+  aspect-ratio: 3 / 4;
+  height: auto;
   border-radius: var(--radius-md);
-  object-fit: cover;
+  object-fit: contain;
+  object-position: top center;
   border: 1px solid #F0F0F0;
+  background: #FFFFFF;
   flex-shrink: 0;
 }
 
 .member-photo-placeholder {
-  width: 208px;
-  height: 300px;
+  width: min(100%, 240px);
+  aspect-ratio: 3 / 4;
+  height: auto;
   border-radius: var(--radius-md);
   background: #F5F5F5;
   color: var(--text-muted);
