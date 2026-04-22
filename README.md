@@ -1,6 +1,6 @@
-# BRT-SRT Lab Website (GitHub Pages)
+# Bio Research Team Website (GitHub Pages)
 
-Static academic lab website for BRT-SRT Lab at National Economics University.
+Static academic lab website for Bio Research Team at National Economics University.
 
 ## Pages
 - `index.html` — Home
@@ -29,6 +29,34 @@ To add or update members, papers, or news, edit only these JSON files.
 
 ## Deployment
 The repository deploys automatically to GitHub Pages when pushing to `main`.
+
+### Move to NEU-Bio-Research-Team Organization
+1. Create a new repository in organization `NEU-Bio-Research-Team` (recommended name: `NEU-BRT-SRT`).
+2. Update local remote:
+
+```bash
+git remote set-url origin https://github.com/NEU-Bio-Research-Team/NEU-BRT-SRT.git
+```
+
+3. Push all branches and tags:
+
+```bash
+git push -u origin main
+git push --tags
+```
+
+4. In GitHub repo settings, enable Pages:
+	- `Settings` -> `Pages`
+	- `Build and deployment` -> `Source: Deploy from a branch`
+	- `Branch: main` and folder `/(root)`
+
+5. Expected project page URL:
+
+```text
+https://neu-bio-research-team.github.io/NEU-BRT-SRT/
+```
+
+If you create a different repository name, update this URL and also update `robots.txt` + `sitemap.xml` to match the final Pages URL.
 
 ## Local Preview
 Open `index.html` directly in browser, or use a local static server.

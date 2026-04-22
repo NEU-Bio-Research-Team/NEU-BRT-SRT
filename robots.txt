@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://minhquangqu.github.io/NEU-BRT-SRT/sitemap.xml
+Sitemap: https://neu-bio-research-team.github.io/NEU-BRT-SRT/sitemap.xml
