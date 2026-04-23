@@ -14,8 +14,8 @@
         "pages":  "109860",
         "doi":  "https://doi.org/10.1016/j.bspc.2026.109860",
         "pdf":  "",
-        "if":  null,
-        "jcr":  null,
+        "if":  4.9,
+        "jcr":  "SCIE",
         "abstract":  "",
         "keywords":  [
                          "EEG denoising",
@@ -71,8 +71,8 @@
         "pages":  "106975",
         "doi":  "https://doi.org/10.1016/j.bspc.2024.106975",
         "pdf":  "",
-        "if":  null,
-        "jcr":  null,
+        "if":  4.9,
+        "jcr":  "SCIE",
         "abstract":  "",
         "keywords":  [
                          "Task analysis",
@@ -105,8 +105,8 @@
         "pages":  "e3158",
         "doi":  "https://doi.org/10.7717/peerj-cs.3158",
         "pdf":  "",
-        "if":  null,
-        "jcr":  null,
+        "if":  3.8,
+        "jcr":  "SCIE",
         "abstract":  "",
         "keywords":  [
 
@@ -130,8 +130,8 @@
         "pages":  "117176-117202",
         "doi":  "https://doi.org/10.1109/ACCESS.2024.3447759",
         "pdf":  "",
-        "if":  null,
-        "jcr":  null,
+        "if":  3.4,
+        "jcr":  "SCIE",
         "abstract":  "",
         "keywords":  [
 
@@ -154,8 +154,8 @@
         "pages":  "1-12",
         "doi":  "https://doi.org/10.1109/MIS.2024.3408290",
         "pdf":  "",
-        "if":  null,
-        "jcr":  null,
+        "if":  6.4,
+        "jcr":  "SCIE",
         "abstract":  "",
         "keywords":  [
                          "Task analysis",
@@ -234,7 +234,7 @@
         "doi":  "https://doi.org/10.30693/SMJ.2022.11.2.39",
         "pdf":  "",
         "if":  null,
-        "jcr":  null,
+        "jcr":  "KCI",
         "abstract":  "",
         "keywords":  [
 

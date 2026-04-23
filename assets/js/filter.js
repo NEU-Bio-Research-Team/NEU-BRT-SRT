@@ -221,7 +221,7 @@ function paperItemTemplate(paper, index) {
           ${rest ? `, ${sanitize(rest)}` : ''}
         </p>
         <div class="paper-badges">
-          <span class="paper-chip paper-chip--type">${sanitize(paper.type || 'N/A')}</span>
+          <span class="paper-chip ${paper.type === 'Journal' ? 'paper-chip--journal' : 'paper-chip--conference'}">${sanitize(paper.type || 'N/A')}</span>
           <span class="paper-meta-inline paper-venue">${sanitize(paper.venue || '')}</span>
           <span class="paper-meta-inline">${sanitize(String(paper.year || ''))}</span>
           ${paper.if ? `<span class="paper-chip paper-chip--if">IF ${sanitize(String(paper.if))}</span>` : ''}

@@ -425,6 +425,16 @@
   color: #1B6EF3;
 }
 
+.paper-chip--journal {
+  background: #FEE2E2;
+  color: #C53030;
+}
+
+.paper-chip--conference {
+  background: #E8F0FF;
+  color: #1B6EF3;
+}
+
 .paper-chip--if {
   background: var(--bg-chip-if);
   color: var(--text-if);
