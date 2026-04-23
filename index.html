@@ -1,153 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <meta name="description" content="Bio Research Team at National Economics University.">
-  <meta property="og:title" content="Bio Research Team">
-  <meta property="og:description" content="Bio Research Team at National Economics University">
-  <meta property="og:image" content="assets/images/og-image.png">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="./index.html">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Bio Research Laboratory</title>
+      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+    </head>
 
-  <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-</head>
-<body>
-  <header class="navbar">
-    <div class="navbar__inner">
-      <a href="index.html" class="nav-logo" aria-label="Bio Research Team Home">
-        <span class="nav-logo__icons" aria-hidden="true">
-          <img class="nav-logo__icon" src="assets/images/BRT.jpg" alt="" width="32" height="32">
-          <img class="nav-logo__icon" src="assets/images/SRT.jpg" alt="" width="32" height="32">
-        </span>
-        <span class="nav-logo__meta">
-          <span class="nav-logo__text">Bio Research Team</span>
-          <span class="nav-logo__sub">National Economics University</span>
-        </span>
-      </a>
-
-      <ul class="nav-links" role="list">
-        <li><a href="post.html">News</a></li>
-        <li><a href="publication.html">Publication</a></li>
-        <li><a href="members.html">Members</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="mailto:brt-srt@neu.edu.vn?subject=Login%20Request" class="btn btn-primary nav-login">Login</a></li>
-      </ul>
-
-      <button class="nav-mobile-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero-wrap">
-      <div class="container">
-        <div class="hero-panel">
-          <h1 class="hero-title" id="hero-title">Bio Research Team</h1>
-          <p class="hero-tagline" id="hero-tagline">
-            Our research and projects span business analytics, emotional intelligence, and deep-learning-driven smart technology.
-          </p>
-          <div class="hero-cta">
-            <a href="publication.html" class="btn btn-primary">Explore Research</a>
-            <a href="members.html" class="btn btn-outline">Meet the Team</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Research Areas</h2>
-        </div>
-        <div id="research-areas" class="research-grid"></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Lab News</h2>
-        </div>
-        <div id="latest-news" class="home-news-list"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer__minimal">
-      <span class="footer-contact-label">Contact us</span>
-      <a class="footer-email" href="mailto:brt-srt@neu.edu.vn">brt-srt@neu.edu.vn</a>
-    </div>
-  </footer>
-
-  <script src="assets/js/render.js"></script>
-  <script>
-    async function initHomePage() {
-      try {
-        const [lab, news] = await Promise.all([
-          fetchData('lab.json'),
-          fetchData('news.json')
-        ]);
-
-        const heroTitle = document.querySelector('#hero-title');
-        if (heroTitle) heroTitle.textContent = lab.name || 'Bio Research Team';
-
-        const heroTagline = document.querySelector('#hero-tagline');
-        if (heroTagline && lab.research_areas) {
-          const topics = lab.research_areas.map((a) => a.title).slice(0, 3).join(', ');
-          heroTagline.textContent = `Our research and projects span ${topics}.`;
-        }
-
-        const areasEl = document.querySelector('#research-areas');
-        if (areasEl) {
-          const cards = (lab.research_areas || []).map((area) => `
-            <article class="card research-card">
-              <div class="research-icon">${sanitize(area.icon || '')}</div>
-              <h3 class="research-title">${sanitize(area.title || '')}</h3>
-              <p class="research-desc">${sanitize(area.desc || '')}</p>
-            </article>
-          `);
-          areasEl.innerHTML = cards.join('');
-        }
-
-        const latestNewsEl = document.querySelector('#latest-news');
-        if (latestNewsEl) {
-          const latest = [...news]
-            .sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || b.date.localeCompare(a.date))
-            .slice(0, 3);
-
-          latestNewsEl.innerHTML = latest.map((item) => {
-            const d = formatNewsDate(item.date);
-            return `
-              <article class="card news-item news-item--compact">
-                <div class="news-date">
-                  <span class="news-date__day">${d.day}</span>
-                  <span class="news-date__month">${d.monthYear}</span>
-                </div>
-                <div class="news-main">
-                  <div class="news-meta">
-                    ${item.pinned ? '<span class="badge badge--pin">Pinned</span>' : ''}
-                    <span class="badge ${newsCategoryClass(item.category)}">${sanitize(item.category)}</span>
-                  </div>
-                  <a class="news-title" href="post-detail.html?id=${encodeURIComponent(item.id)}">${sanitize(item.title)}</a>
-                </div>
-                <a class="news-arrow" href="post-detail.html?id=${encodeURIComponent(item.id)}" aria-label="Open news">></a>
-              </article>`;
-          }).join('');
-        }
-      } catch (e) {
-        console.error('initHomePage:', e);
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', initHomePage);
-  </script>
-</body>
-</html>
+    <body>
+      <div id="root"></div>
+      <script type="module" src="/src/main.tsx"></script>
+    </body>
+  </html>
+  
