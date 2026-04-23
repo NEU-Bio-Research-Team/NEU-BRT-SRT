@@ -3,17 +3,17 @@
    ============================================================ */
 :root {
   /* Core colors */
-  --color-primary: #1B6EF3;
-  --color-primary-hover: #1558C7;
+  --color-primary: #00897B;
+  --color-primary-hover: #00695C;
   --color-accent-warm: #D4A843;
   --color-accent-muted: #C8A96E;
 
-  --bg-page: #F7F7F5;
+  --bg-page: #F5F9F8;
   --bg-card: #FFFFFF;
-  --bg-hero: linear-gradient(135deg, #E8E8F4 0%, #F0D8E8 50%, #EDE8DC 100%);
-  --bg-dark-card: #1E1E2A;
+  --bg-hero: linear-gradient(135deg, #E0F2F1 0%, #E8F5E9 50%, #EDE8DC 100%);
+  --bg-dark-card: #1E2A28;
 
-  --bg-chip-sci: #E8F0FF;
+  --bg-chip-sci: #E0F2F1;
   --bg-chip-if: #FFF3CD;
   --bg-chip-jcr: #D1ECF1;
 

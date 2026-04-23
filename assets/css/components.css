@@ -218,7 +218,7 @@
 }
 
 .news-title:hover {
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 .news-meta {
@@ -236,7 +236,7 @@
 }
 
 .news-item:hover .news-arrow {
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 .badge {
@@ -264,8 +264,8 @@
 }
 
 .badge--publication {
-  background: #E8F0FF;
-  color: #1B6EF3;
+  background: var(--bg-chip-sci);
+  color: var(--color-primary);
 }
 
 .badge--event {
@@ -372,7 +372,7 @@
 }
 
 .area-back:hover {
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 .area-banner-wrap {
@@ -415,7 +415,7 @@
 }
 
 .area-post-read:hover {
-  background: #1B6EF3;
+  background: var(--color-primary);
   color: #FFFFFF;
 }
 
@@ -427,7 +427,7 @@ a.research-card {
 }
 
 a.research-card:hover .research-title {
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 /* Papers */
@@ -471,7 +471,7 @@ a.research-card:hover .research-title {
 }
 
 .paper-title a:hover {
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 .paper-authors {
@@ -504,7 +504,7 @@ a.research-card:hover .research-title {
 
 .paper-chip--type {
   background: var(--bg-chip-sci);
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 .paper-chip--journal {
@@ -513,8 +513,8 @@ a.research-card:hover .research-title {
 }
 
 .paper-chip--conference {
-  background: #E8F0FF;
-  color: #1B6EF3;
+  background: var(--bg-chip-sci);
+  color: var(--color-primary);
 }
 
 .paper-chip--if {
@@ -552,7 +552,7 @@ a.research-card:hover .research-title {
 }
 
 .paper-copy:hover {
-  background: #1B6EF3;
+  background: var(--color-primary);
   color: #FFFFFF;
 }
 
@@ -741,7 +741,7 @@ a.research-card:hover .research-title {
 }
 
 .member-links a:hover {
-  background: #1B6EF3;
+  background: var(--color-primary);
   color: #FFFFFF;
 }
 
@@ -945,8 +945,8 @@ a.research-card:hover .research-title {
 }
 
 .pagination__btn--active {
-  background: #1B6EF3;
-  border-color: #1B6EF3;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
   color: #FFFFFF;
 }
 

@@ -140,7 +140,7 @@ main {
 }
 
 .btn-primary {
-  background: #1B6EF3;
+  background: var(--color-primary);
   color: #FFFFFF;
 }
 
@@ -255,7 +255,7 @@ main {
 .nav-trigger:hover,
 .nav-links a.active,
 .nav-item--dropdown.open .nav-trigger {
-  color: #1B6EF3;
+  color: var(--color-primary);
 }
 
 .nav-links a.active {
