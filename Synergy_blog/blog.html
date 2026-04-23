@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SynerT — Early AKI Prediction from Intraoperative Physiological Trajectories</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Brand — clinical teal */
+      --teal:         #00695C;
+      --teal-dark:    #004D40;
+      --teal-mid:     #26A69A;
+      --teal-light:   #E0F2F1;
+      --teal-bg:      #B2DFDB;
+
+      /* TCN branch — amber */
+      --amber:        #E65100;
+      --amber-dark:   #BF360C;
+      --amber-light:  #FFF3E0;
+      --amber-bg:     #FFE0B2;
+
+      /* Dilated RNN branch — indigo */
+      --indigo:       #283593;
+      --indigo-mid:   #3949AB;
+      --indigo-light: #E8EAF6;
+      --indigo-bg:    #C5CAE9;
+
+      /* Attention / fusion — forest green */
+      --green:        #2E7D32;
+      --green-light:  #E8F5E9;
+
+      /* Prediction head — crimson */
+      --crimson:      #B71C1C;
+      --crimson-light:#FFEBEE;
+
+      /* AKI / Non-AKI status */
+      --aki-red:      #C62828;
+      --aki-red-bg:   #FFCDD2;
+      --safe-green:   #1B5E20;
+      --safe-green-bg:#C8E6C9;
+
+      /* Neutrals */
+      --grey-50:      #FAFAFA;
+      --grey-100:     #F5F7FA;
+      --grey-200:     #EAECEF;
+      --grey-400:     #9AA1AF;
+      --grey-700:     #3D4451;
+      --grey-900:     #1A1D23;
+      --text:         #1C2B3A;
+      --text-light:   #546070;
+      --border:       #DDE3EC;
+      --white:        #FFFFFF;
+
+      --radius:       10px;
+      --shadow:       0 2px 16px rgba(0,0,0,0.08);
+      --shadow-lg:    0 8px 40px rgba(0,0,0,0.13);
+      --max-width:    840px;
+      --font-body:    'Georgia', 'Times New Roman', serif;
+      --font-ui:      'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono:    'SFMono-Regular', 'Consolas', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.82;
+      font-size: 17px;
+    }
+
+    /* ── Progress bar ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--teal), var(--teal-mid));
+      z-index: 1000; transition: width 0.1s linear;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 900;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      font-family: var(--font-ui);
+    }
+    nav .nav-inner {
+      max-width: var(--max-width); margin: 0 auto;
+      display: flex; align-items: center; gap: 26px;
+      height: 48px; overflow-x: auto; scrollbar-width: none;
+    }
+    nav .nav-inner::-webkit-scrollbar { display: none; }
+    nav a {
+      color: var(--text-light); text-decoration: none;
+      font-size: 13px; font-weight: 500; white-space: nowrap;
+      padding: 4px 0; border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    nav a:hover, nav a.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(150deg, #003D36 0%, #00695C 50%, #00897B 100%);
+      color: white; padding: 72px 24px 60px; text-align: center;
+    }
+    .venue-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 20px; padding: 5px 14px;
+      font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--font-ui); font-size: clamp(22px, 4vw, 36px);
+      font-weight: 700; line-height: 1.25;
+      max-width: 700px; margin: 0 auto 20px; letter-spacing: -0.01em;
+    }
+    .hero h1 em { color: #80CBC4; font-style: normal; }
+    .hero .subtitle {
+      font-family: var(--font-ui); font-size: 16px;
+      color: rgba(255,255,255,0.75); max-width: 580px;
+      margin: 0 auto 32px; line-height: 1.65;
+    }
+    .authors {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 9px;
+      margin-bottom: 24px;
+    }
+    .author-chip {
+      font-family: var(--font-ui); font-size: 13px;
+      background: rgba(255,255,255,0.11); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px; padding: 4px 13px;
+    }
+    .author-chip.corresponding { border-color: #80CBC4; background: rgba(128,203,196,0.2); }
+    .affiliation {
+      font-family: var(--font-ui); font-size: 12.5px;
+      color: rgba(255,255,255,0.6); margin-bottom: 36px;
+    }
+    .hero-metrics {
+      display: flex; justify-content: center; gap: 40px;
+      flex-wrap: wrap; margin-top: 28px;
+    }
+    .hero-metric .val {
+      font-family: var(--font-ui); font-size: 34px; font-weight: 800;
+      color: #80CBC4; line-height: 1;
+    }
+    .hero-metric .lbl {
+      font-family: var(--font-ui); font-size: 11px;
+      color: rgba(255,255,255,0.6); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-top: 5px;
+    }
+    .hero-metric .sub {
+      font-family: var(--font-ui); font-size: 10px;
+      color: rgba(255,255,255,0.45); margin-top: 2px;
+    }
+    .hero-divider { width: 1px; height: 52px; background: rgba(255,255,255,0.18); align-self: center; }
+
+    /* ── Layout ── */
+    section {
+      padding: 60px 24px; max-width: var(--max-width); margin: 0 auto;
+    }
+    section + section { padding-top: 0; }
+    .section-divider { height: 1px; background: var(--border); max-width: var(--max-width); margin: 0 auto; }
+
+    /* ── Headings ── */
+    .section-label {
+      font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 8px;
+    }
+    h2 {
+      font-family: var(--font-ui); font-size: clamp(20px, 3vw, 26px);
+      font-weight: 700; color: var(--grey-900); line-height: 1.3;
+      margin-bottom: 20px; letter-spacing: -0.01em;
+    }
+    h3 {
+      font-family: var(--font-ui); font-size: 17px; font-weight: 700;
+      color: var(--grey-900); margin: 30px 0 10px;
+    }
+    p { margin-bottom: 18px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Abstract ── */
+    .abstract-card {
+      background: var(--grey-100); border-left: 4px solid var(--teal);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 24px 28px; margin-bottom: 32px;
+    }
+    .abstract-label {
+      font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 10px;
+    }
+    .abstract-card p { font-size: 15.5px; line-height: 1.76; margin-bottom: 0; }
+
+    .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .kw-tag {
+      font-family: var(--font-ui); font-size: 12px; font-weight: 500;
+      background: var(--teal-light); color: var(--teal);
+      border: 1px solid var(--teal-bg); border-radius: 4px; padding: 3px 10px;
+    }
+
+    /* ── Callouts ── */
+    .callout {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 18px 20px; border-radius: var(--radius); margin: 24px 0;
+    }
+    .callout.teal   { background: var(--teal-light);   border-left: 4px solid var(--teal); }
+    .callout.amber  { background: var(--amber-light);  border-left: 4px solid var(--amber); }
+    .callout.indigo { background: var(--indigo-light); border-left: 4px solid var(--indigo); }
+    .callout.green  { background: var(--green-light);  border-left: 4px solid var(--green); }
+    .callout.red    { background: var(--crimson-light);border-left: 4px solid var(--crimson); }
+    .callout-icon { flex-shrink: 0; line-height: 0; display: flex; align-items: center; }
+    .callout-icon svg { stroke: currentColor; }
+    .callout-body { font-size: 15.5px; line-height: 1.72; font-family: var(--font-body); }
+    .callout-body strong { font-family: var(--font-ui); }
+
+    /* ── Contribution cards ── */
+    .contrib-list { display: flex; flex-direction: column; gap: 13px; margin: 20px 0; }
+    .contrib-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .contrib-num {
+      flex-shrink: 0; width: 32px; height: 32px;
+      background: var(--teal); color: white; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-ui); font-size: 14px; font-weight: 800;
+    }
+    .contrib-body { font-size: 15.5px; line-height: 1.7; }
+    .contrib-body strong { font-family: var(--font-ui); }
+
+    /* ── Signal channel badges ── */
+    .signal-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; margin: 22px 0;
+    }
+    .sig-card {
+      border-radius: 8px; padding: 13px 15px;
+      border: 1px solid var(--border); background: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .sig-card.required { border-left: 3px solid var(--teal); }
+    .sig-card.optional { border-left: 3px solid var(--grey-400); }
+    .sig-name {
+      font-family: var(--font-mono); font-size: 12.5px; font-weight: 700;
+      color: var(--teal); margin-bottom: 4px;
+    }
+    .sig-card.optional .sig-name { color: var(--grey-700); }
+    .sig-desc { font-family: var(--font-ui); font-size: 12px; color: var(--text-light); line-height: 1.4; }
+    .sig-badge {
+      display: inline-block; font-family: var(--font-ui); font-size: 10px;
+      font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 1px 6px; border-radius: 3px; margin-bottom: 5px;
+    }
+    .sig-badge.req { background: var(--teal); color: white; }
+    .sig-badge.opt { background: var(--grey-200); color: var(--grey-700); }
+
+    /* ── Architecture component cards ── */
+    .arch-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin: 24px 0;
+    }
+    .arch-card {
+      border-radius: var(--radius); padding: 18px 20px;
+      border: 1px solid var(--border);
+    }
+    .arch-card.preproc  { background: var(--teal-light);   border-color: var(--teal-bg); }
+    .arch-card.tcn      { background: var(--amber-light);  border-color: var(--amber-bg); }
+    .arch-card.drnn     { background: var(--indigo-light); border-color: var(--indigo-bg); }
+    .arch-card.fusion   { background: var(--green-light);  border-color: #A5D6A7; }
+    .arch-card.head     { background: var(--crimson-light);border-color: #FFCDD2; }
+    .arch-card h4 {
+      font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;
+    }
+    .arch-card.preproc h4  { color: var(--teal); }
+    .arch-card.tcn h4      { color: var(--amber); }
+    .arch-card.drnn h4     { color: var(--indigo); }
+    .arch-card.fusion h4   { color: var(--green); }
+    .arch-card.head h4     { color: var(--crimson); }
+    .arch-card ul { list-style: none; font-family: var(--font-ui); font-size: 13px; line-height: 1.75; }
+    .arch-card ul li::before { content: "→ "; opacity: 0.45; }
+
+    /* ── Figure blocks ── */
+    .fig-block { margin: 34px 0; text-align: center; }
+    .fig-block img {
+      max-width: 100%; border-radius: var(--radius);
+      box-shadow: var(--shadow); border: 1px solid var(--border); display: block; margin: 0 auto;
+    }
+    .fig-caption {
+      font-family: var(--font-ui); font-size: 13.5px; color: var(--text-light);
+      margin-top: 12px; line-height: 1.55;
+      max-width: 700px; margin-left: auto; margin-right: auto; text-align: left;
+    }
+    .fig-caption strong { color: var(--text); }
+
+    /* ── Equation ── */
+    .eq-block {
+      font-family: var(--font-mono); font-size: 14.5px; text-align: center;
+      padding: 18px 24px; background: var(--grey-100);
+      border-radius: var(--radius); border: 1px solid var(--border);
+      color: var(--grey-900); margin: 22px 0; letter-spacing: 0.02em;
+    }
+    .eq-block .eq-note {
+      display: block; font-family: var(--font-ui); font-size: 12px;
+      color: var(--text-light); margin-top: 10px; letter-spacing: 0;
+    }
+
+    /* ── Metrics strip ── */
+    .metrics-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin: 28px 0; box-shadow: var(--shadow);
+    }
+    .metric-cell { background: white; padding: 20px; text-align: center; }
+    .metric-cell .m-val {
+      font-family: var(--font-ui); font-size: 26px; font-weight: 800;
+      color: var(--teal); line-height: 1;
+    }
+    .metric-cell .m-val.best { color: var(--green); }
+    .metric-cell .m-name {
+      font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-light); margin-top: 6px;
+    }
+    .metric-cell .m-sub {
+      font-family: var(--font-ui); font-size: 10.5px;
+      color: var(--grey-400); margin-top: 3px;
+    }
+    .metric-cell .m-delta {
+      font-family: var(--font-ui); font-size: 11px;
+      color: var(--green); font-weight: 600; margin-top: 4px;
+    }
+
+    /* ── Results table ── */
+    .table-wrap {
+      overflow-x: auto; margin: 28px 0;
+      border-radius: var(--radius); border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: 13.5px; }
+    thead tr { background: var(--grey-900); color: white; }
+    thead th {
+      padding: 13px 16px; text-align: left; font-weight: 600;
+      font-size: 12px; letter-spacing: 0.04em; white-space: nowrap;
+    }
+    thead th:not(:first-child) { text-align: center; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--grey-100); }
+    tbody td { padding: 11px 16px; color: var(--text); }
+    tbody td:not(:first-child) { text-align: center; font-variant-numeric: tabular-nums; }
+    tbody tr.ablation { background: var(--teal-light); }
+    tbody tr.ablation td { color: var(--teal-dark); font-style: italic; }
+    tbody tr.highlight { background: #E0F2F1; font-weight: 700; }
+    tbody tr.highlight td { color: var(--teal-dark); }
+    tbody tr.highlight:hover { background: var(--teal-bg); }
+    .model-type { font-size: 10.5px; color: var(--text-light); font-weight: 400; margin-left: 5px; }
+
+    /* ── Performance curves 2-col ── */
+    .curves-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 28px 0;
+    }
+    .curve-card {
+      border-radius: var(--radius); border: 1px solid var(--border);
+      overflow: hidden; box-shadow: var(--shadow);
+    }
+    .curve-card img { width: 100%; display: block; }
+    .curve-caption {
+      padding: 10px 14px; font-family: var(--font-ui); font-size: 12.5px;
+      color: var(--text-light); background: var(--grey-100);
+      border-top: 1px solid var(--border); line-height: 1.5;
+    }
+
+    /* ── Case analysis grid ── */
+    .case-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 28px 0;
+    }
+    .case-card {
+      border-radius: var(--radius); border: 1px solid var(--border);
+      overflow: hidden; box-shadow: var(--shadow);
+    }
+    .case-card img { width: 100%; display: block; }
+    .case-header {
+      padding: 10px 14px; font-family: var(--font-ui);
+      font-size: 13px; font-weight: 700; line-height: 1.4;
+    }
+    .case-card.aki .case-header   { background: var(--aki-red-bg);   color: var(--aki-red); border-bottom: 2px solid var(--aki-red); }
+    .case-card.naki .case-header  { background: var(--safe-green-bg); color: var(--safe-green); border-bottom: 2px solid var(--safe-green); }
+    .case-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: currentColor; margin-right: 7px; vertical-align: middle; flex-shrink: 0; }
+    .case-footer {
+      padding: 9px 14px; font-family: var(--font-ui); font-size: 12px;
+      color: var(--text-light); background: var(--grey-100);
+      border-top: 1px solid var(--border); line-height: 1.5;
+    }
+    .verdict-row {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px;
+    }
+    .verdict {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: var(--font-ui); font-size: 11.5px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .verdict.correct { background: var(--safe-green-bg); color: var(--safe-green); }
+    .verdict.wrong   { background: var(--aki-red-bg);    color: var(--aki-red); }
+
+    /* ── Stat highlight box ── */
+    .stat-box {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin: 24px 0;
+    }
+    .stat-cell { background: white; padding: 18px; text-align: center; }
+    .stat-cell .s-val {
+      font-family: var(--font-ui); font-size: 22px; font-weight: 800;
+      color: var(--teal); line-height: 1;
+    }
+    .stat-cell .s-name {
+      font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--text-light); margin-top: 5px;
+    }
+
+    /* ── Scroll to top ── */
+    #top-btn {
+      position: fixed; bottom: 28px; right: 28px; z-index: 800;
+      width: 40px; height: 40px; background: var(--teal); color: white;
+      border: none; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; box-shadow: 0 4px 16px rgba(0,105,92,0.4);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    #top-btn.visible { opacity: 1; pointer-events: auto; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--grey-900); color: rgba(255,255,255,0.7);
+      padding: 40px 24px; text-align: center;
+      font-family: var(--font-ui); font-size: 13px; line-height: 1.7;
+    }
+    footer a { color: #80CBC4; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-div { margin: 12px auto; width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .arch-grid, .curves-grid, .case-grid, .signal-grid { grid-template-columns: 1fr; }
+      .metrics-strip, .stat-box { grid-template-columns: 1fr 1fr; }
+      .hero-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#abstract">Abstract</a>
+    <a href="#problem">Problem</a>
+    <a href="#dataset">Dataset</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#results">Results</a>
+    <a href="#cases">Case Analysis</a>
+    <a href="#statistics">Statistics</a>
+    <a href="#conclusion">Conclusion</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════ HERO -->
+<header class="hero">
+  <div class="venue-badge">CITA 2026 &nbsp;·&nbsp; Conference Paper</div>
+  <h1>
+    Physiological Trajectory Modeling for<br>
+    <em>Early Prediction of Acute Kidney Injury<br>During Surgery</em>
+  </h1>
+  <p class="subtitle">
+    SynerT — a synergistic temporal network that fuses multi-scale TCN and Dilated RNN branches
+    with temporal attention pooling to detect AKI risk from the first 60 minutes of intraoperative signals.
+  </p>
+
+  <div class="authors">
+    <span class="author-chip">Quang-Minh Nguyen</span>
+    <span class="author-chip corresponding">Trong-Nghia Nguyen ✉</span>
+    <span class="author-chip">Thuy-Quynh Nguyen</span>
+    <span class="author-chip">Duc-Minh Le</span>
+    <span class="author-chip">Nhat-Minh Nguyen Ho</span>
+  </div>
+  <p class="affiliation">
+    Faculty of Data Science and Artificial Intelligence, National Economics University, Hanoi, Vietnam<br>
+    ✉ nghiant@neu.edu.vn
+  </p>
+
+  <div class="hero-metrics">
+    <div class="hero-metric">
+      <div class="val">0.691</div>
+      <div class="lbl">AUROC</div>
+      <div class="sub">± 0.053</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-metric">
+      <div class="val">0.145</div>
+      <div class="lbl">AUPRC</div>
+      <div class="sub">Best · ± 0.082</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-metric">
+      <div class="val">p=0.024</div>
+      <div class="lbl">Wilcoxon test</div>
+      <div class="sub">vs. Dilated RNN</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-metric">
+      <div class="val">60 min</div>
+      <div class="lbl">Early prediction</div>
+      <div class="sub">window</div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════ ABSTRACT -->
+<section id="abstract">
+  <div class="section-label">Abstract</div>
+  <h2>Overview</h2>
+
+  <div class="abstract-card">
+    <div class="abstract-label">Abstract</div>
+    <p>
+      Postoperative Acute Kidney Injury (AKI), a major factor contributing to increased hospitalisation
+      and mortality following major surgeries, presents a critical prediction challenge in perioperative
+      medicine. This paper presents <strong>SynerT</strong> (Temporal Synergy Network), an early warning
+      system that processes heterogeneous intraoperative time-series data to identify patients at high
+      risk of developing AKI <em>prior to the onset of clinical manifestations</em>. A multimodal temporal
+      architecture models physiological trajectories by combining multi-scale temporal dynamics through a
+      fusion-attention mechanism: a Multi-scale Temporal Convolutional Network (TCN) branch captures
+      high-frequency morphological features, while a Dilated Recurrent Neural Network (RNN) branch
+      captures long-range dependencies and state changes. Validated on the high-resolution VitalDB
+      database, SynerT achieves <strong>AUROC of 0.691</strong> and <strong>AUPRC of 0.145</strong>
+      — the highest AUPRC among all evaluated models, with a statistically significant improvement
+      (p = 0.024) over the strongest baseline.
+    </p>
+  </div>
+
+  <div class="keywords">
+    <span class="kw-tag">Acute Kidney Injury</span>
+    <span class="kw-tag">Intraoperative Prediction</span>
+    <span class="kw-tag">Temporal Convolutional Network</span>
+    <span class="kw-tag">Dilated RNN</span>
+    <span class="kw-tag">Physiological Trajectories</span>
+    <span class="kw-tag">Multi-scale Modeling</span>
+    <span class="kw-tag">Attention Pooling</span>
+    <span class="kw-tag">VitalDB</span>
+  </div>
+
+  <div class="contrib-list" style="margin-top:32px;">
+    <div class="contrib-card">
+      <div class="contrib-num">1</div>
+      <div class="contrib-body">
+        <strong>Physiological trajectory modeling:</strong> Framing intraoperative AKI prediction as a
+        trajectory modeling problem — explicitly tracking how multi-channel physiological signals evolve
+        jointly over time — rather than using static snapshots or single-channel summaries.
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">2</div>
+      <div class="contrib-body">
+        <strong>SynerT architecture:</strong> A synergistic dual-branch network combining TCN (short-term
+        morphological patterns) and Dilated RNN (long-range dependencies), unified through temporal
+        attention pooling that highlights the most informative physiological events per patient.
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">3</div>
+      <div class="contrib-body">
+        <strong>Early prediction validation:</strong> Demonstrated improved AUPRC and reduced false alarm
+        rates under a strict 60-minute observation window — the regime where actionable clinical decisions
+        can still prevent AKI progression.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ PROBLEM -->
+<section id="problem">
+  <div class="section-label">Motivation</div>
+  <h2>The AKI Prediction Challenge</h2>
+
+  <p>
+    Acute Kidney Injury is a sudden, reversible decline in kidney function that can develop within hours
+    during and after major surgery. Despite its gravity, it is frequently diagnosed too late — after
+    creatinine levels rise in blood tests ordered days post-operatively — leaving clinicians with
+    diminished capacity to intervene.
+  </p>
+
+  <div class="callout red">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+    <div class="callout-body">
+      <strong>Scale of the problem:</strong> With approximately <strong>300 million surgical procedures</strong>
+      worldwide each year, and AKI affecting roughly <strong>1 in 5 surgical patients</strong>
+      (incidence ~18.4%), PO-AKI represents one of the most prevalent and costly postoperative
+      complications — yet one of the least detected in time to act.
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+    <div class="callout-body">
+      <strong>The timing problem:</strong> Clinicians currently diagnose AKI using postoperative creatinine
+      measurements — a lagging indicator. By the time the diagnosis is made, the window for haemodynamic
+      intervention has often closed. An intraoperative early warning system using the first hour of
+      continuous signals could fundamentally change this.
+    </div>
+  </div>
+
+  <div class="callout indigo">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></div>
+    <div class="callout-body">
+      <strong>Why existing models fall short:</strong> Most approaches use static preoperative risk scores
+      or process signals at a single temporal scale, capturing either brief haemodynamic events
+      (short-scale) or slow physiological trends (long-scale) — but not both simultaneously.
+      The operating room generates rich multi-channel, multi-scale dynamics that single-resolution
+      models systematically discard.
+    </div>
+  </div>
+
+  <div class="callout teal">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></div>
+    <div class="callout-body">
+      <strong>Insight behind SynerT:</strong> Surgical signals have a <em>dual nature</em>. Short-term
+      anomalies — sudden drops in blood pressure, transient oxygen desaturation — are best detected
+      by convolutional models. Long-term trends — progressive mean arterial pressure decline, slow
+      creatinine accumulation risk — are best tracked by recurrent models. Fusing both branches with
+      a temporal attention mechanism produces a model that sees the complete physiological picture.
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ DATASET -->
+<section id="dataset">
+  <div class="section-label">Data</div>
+  <h2>VitalDB Dataset & Preprocessing</h2>
+
+  <p>
+    All experiments use the <strong>VitalDB</strong> database — a high-resolution Korean surgical registry
+    that records continuous intraoperative physiological monitoring at 1-second granularity across multiple
+    channels. Cases are organised at the individual surgical encounter level.
+  </p>
+
+  <h3>Physiological Input Channels</h3>
+  <p>
+    Three channels are <strong>required</strong> for every case (minimum 60 observations within the
+    effective window). Four additional channels are incorporated when available:
+  </p>
+
+  <div class="signal-grid">
+    <div class="sig-card required">
+      <span class="sig-badge req">Required</span>
+      <div class="sig-name">ART_MBP</div>
+      <div class="sig-desc">Mean arterial blood pressure — primary perfusion indicator for kidney viability</div>
+    </div>
+    <div class="sig-card required">
+      <span class="sig-badge req">Required</span>
+      <div class="sig-name">PLETH_HR</div>
+      <div class="sig-desc">Heart rate from plethysmography — continuous cardiac output proxy</div>
+    </div>
+    <div class="sig-card required">
+      <span class="sig-badge req">Required</span>
+      <div class="sig-name">PLETH_SPO2</div>
+      <div class="sig-desc">Oxygen saturation — tissue oxygenation and perfusion adequacy</div>
+    </div>
+    <div class="sig-card optional">
+      <span class="sig-badge opt">Optional</span>
+      <div class="sig-name">ART_SBP</div>
+      <div class="sig-desc">Systolic blood pressure — peak pressure during cardiac contraction</div>
+    </div>
+    <div class="sig-card optional">
+      <span class="sig-badge opt">Optional</span>
+      <div class="sig-name">ART_DBP</div>
+      <div class="sig-desc">Diastolic blood pressure — resting vascular pressure</div>
+    </div>
+    <div class="sig-card optional">
+      <span class="sig-badge opt">Optional</span>
+      <div class="sig-name">HR</div>
+      <div class="sig-desc">Heart rate from ECG — independent cardiac rhythm monitoring</div>
+    </div>
+    <div class="sig-card optional" style="grid-column: 1 / -1; max-width: 280px;">
+      <span class="sig-badge opt">Optional</span>
+      <div class="sig-name">ETCO2</div>
+      <div class="sig-desc">End-tidal CO₂ — ventilation quality, indirect perfusion indicator</div>
+    </div>
+  </div>
+
+  <h3>AKI Label Definition & Preprocessing</h3>
+
+  <p>
+    AKI is defined using the established creatinine threshold criterion:
+    <strong>postoperative maximum creatinine ≥ 1.5× baseline</strong> (measured within 7 days
+    post-surgery), where baseline is the most recent creatinine within 30 days prior to surgery.
+    This follows standard KDIGO staging criteria.
+  </p>
+
+  <div class="callout teal">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+    <div class="callout-body">
+      <strong>Early prediction window:</strong> To prevent information leakage and simulate a realistic
+      intraoperative decision point, all model inputs are <strong>restricted to the first 60 minutes</strong>
+      from anesthesia start (or incision reference). The model must issue its risk prediction using only
+      the early intraoperative trajectory — the window in which clinical intervention is still possible.
+    </div>
+  </div>
+
+  <p>
+    Signals are resampled to a uniform <strong>1 Hz</strong> grid and standardised using
+    fold-specific normalisation statistics (computed only from training data to prevent leakage).
+    Cases with fewer than 60 observations per required channel or shorter than 10 minutes of valid
+    data are excluded. Evaluation uses a <strong>stratified 5-fold cross-validation protocol</strong>
+    with 5 random seeds (yielding 25 paired observations per model comparison).
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ ARCHITECTURE -->
+<section id="architecture">
+  <div class="section-label">Model</div>
+  <h2>SynerT Architecture</h2>
+
+  <div class="fig-block">
+    <img src="SynerT.jpg" alt="SynerT architecture diagram" />
+    <div class="fig-caption">
+      <strong>Figure 1.</strong> SynerT framework. Left: continuous physiological monitoring
+      (ART_MBP, PLETH_HR, PLETH_SPO2, ART_SBP, ETCO2) feeds into temporal preprocessing via
+      sliding window segmentation. Centre: dual-branch feature extraction — TCN blocks (Stage 1)
+      for short-term morphological patterns, Dilated RNN blocks (Stage 2) for long-range
+      dependencies — whose representations are fused in a shared feature space. Right: the fused
+      representation passes through fully-connected layers to produce P(AKI) ∈ [0, 1].
+    </div>
+  </div>
+
+  <div class="arch-grid">
+    <div class="arch-card preproc" style="grid-column: 1 / -1;">
+      <h4>① Temporal Preprocessing</h4>
+      <ul>
+        <li>Resample all channels to uniform 1 Hz grid</li>
+        <li>Generate per-channel observation masks (valid time points)</li>
+        <li>Apply sliding window segmentation over the 60-minute window</li>
+        <li>Standardise using fold-level training statistics (no leakage)</li>
+        <li>Exclude cases: &lt; 60 obs/required channel or &lt; 10 min valid length</li>
+      </ul>
+    </div>
+    <div class="arch-card tcn">
+      <h4>② TCN Branch — Local Patterns</h4>
+      <ul>
+        <li>Causal convolutions (no future leakage)</li>
+        <li>Dilated convolutions: receptive field seconds→minutes</li>
+        <li>Detects rapid signal fluctuations and brief events</li>
+        <li>Efficient computation without sequential bottleneck</li>
+        <li>Output: <strong>short-term feature representation</strong></li>
+      </ul>
+    </div>
+    <div class="arch-card drnn">
+      <h4>③ Dilated RNN Branch — Long Trends</h4>
+      <ul>
+        <li>Multi-resolution temporal connections</li>
+        <li>Mitigates vanishing gradient over long surgical sequences</li>
+        <li>Aggregates slow trends and cumulative state changes</li>
+        <li>Models gradual risk accumulation toward AKI onset</li>
+        <li>Output: <strong>long-range feature representation</strong></li>
+      </ul>
+    </div>
+    <div class="arch-card fusion">
+      <h4>④ Fusion + Attention Pooling</h4>
+      <ul>
+        <li>Concatenate TCN and Dilated RNN representations</li>
+        <li>Temporal attention: adaptive per-timestep weights</li>
+        <li>Highlights most informative physiological events</li>
+        <li>Suppresses noise from artefact-contaminated segments</li>
+        <li>Output: unified patient trajectory embedding</li>
+      </ul>
+    </div>
+    <div class="arch-card head">
+      <h4>⑤ AKI Prediction Head</h4>
+      <ul>
+        <li>Fully-connected layers (FCN) with ReLU activations</li>
+        <li>Dropout regularisation for overfitting control</li>
+        <li>Sigmoid output: P(AKI | X) ∈ [0, 1]</li>
+        <li>Continuous risk score for real-time intraoperative display</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Loss Function: Weighted Binary Cross-Entropy</h3>
+  <p>
+    To handle severe class imbalance (AKI patients are a small minority), SynerT uses
+    <strong>positive-class weighted BCE</strong>. The positive weight w⁺ is set dynamically per fold:
+  </p>
+
+  <div class="eq-block">
+    ℒ = − (1/|B|) Σ<sub>i∈B</sub> [ w⁺ · yᵢ · log σ(zᵢ) + (1 − yᵢ) · log(1 − σ(zᵢ)) ]
+    <span class="eq-note">
+      w⁺ = N<sub>neg</sub> / N<sub>pos</sub> (ratio of non-AKI to AKI cases in training fold) &nbsp;·&nbsp;
+      σ = sigmoid &nbsp;·&nbsp; zᵢ = raw logit output
+    </span>
+  </div>
+
+  <p>
+    This formulation penalises false negatives more heavily, encouraging the model to correctly identify
+    rare AKI events rather than defaulting to predicting the majority (non-AKI) class. The loss is
+    optimised via mini-batch stochastic gradient descent using <strong>BCEWithLogitsLoss</strong>
+    (numerically stable logit-domain computation).
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ RESULTS -->
+<section id="results">
+  <div class="section-label">Experiments</div>
+  <h2>Results on VitalDB</h2>
+
+  <p>
+    SynerT is compared against eight baseline models spanning classical RNNs, convolutional networks,
+    and attention-based architectures. Results are reported as mean ± standard deviation across 25
+    observations (5 random seeds × 5 cross-validation folds), using out-of-fold predictions aggregated
+    via stratified 5-fold cross-validation.
+  </p>
+
+  <div class="metrics-strip">
+    <div class="metric-cell">
+      <div class="m-val">0.691</div>
+      <div class="m-name">AUROC</div>
+      <div class="m-sub">± 0.053</div>
+    </div>
+    <div class="metric-cell">
+      <div class="m-val best">0.145</div>
+      <div class="m-name">AUPRC</div>
+      <div class="m-sub">± 0.082 — Best</div>
+      <div class="m-delta">↑ Statistically significant</div>
+    </div>
+    <div class="metric-cell">
+      <div class="m-val">0.015</div>
+      <div class="m-name">ΔAUPRC (mean)</div>
+      <div class="m-sub">vs. Dilated RNN</div>
+      <div class="m-delta">p = 0.024 (Wilcoxon)</div>
+    </div>
+    <div class="metric-cell">
+      <div class="m-val">25</div>
+      <div class="m-name">Paired obs.</div>
+      <div class="m-sub">5 seeds × 5 folds</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>AUROC (mean ± std)</th>
+          <th>AUPRC (mean ± std)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>BiLSTM</td>
+          <td>0.591 ± 0.068</td>
+          <td>0.109 ± 0.036</td>
+        </tr>
+        <tr>
+          <td>LSTM</td>
+          <td>0.593 ± 0.066</td>
+          <td>0.105 ± 0.032</td>
+        </tr>
+        <tr class="ablation">
+          <td>MLP * <span class="model-type">ablation</span></td>
+          <td>0.639 ± 0.075</td>
+          <td>0.111 ± 0.066</td>
+        </tr>
+        <tr>
+          <td>WaveNet</td>
+          <td>0.670 ± 0.075</td>
+          <td>0.122 ± 0.066</td>
+        </tr>
+        <tr class="ablation">
+          <td>TCN * <span class="model-type">ablation — SynerT branch</span></td>
+          <td>0.675 ± 0.074</td>
+          <td>0.121 ± 0.064</td>
+        </tr>
+        <tr>
+          <td>GRU</td>
+          <td>0.680 ± 0.067</td>
+          <td>0.116 ± 0.053</td>
+        </tr>
+        <tr>
+          <td>Dilated Conv</td>
+          <td>0.692 ± 0.055</td>
+          <td>0.117 ± 0.058</td>
+        </tr>
+        <tr class="ablation">
+          <td>Dilated RNN * <span class="model-type">ablation — SynerT branch</span></td>
+          <td><strong>0.700 ± 0.052</strong></td>
+          <td>0.124 ± 0.055</td>
+        </tr>
+        <tr class="highlight">
+          <td>★ SynerT (Ours)</td>
+          <td>0.691 ± 0.053</td>
+          <td><strong>0.145 ± 0.082</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-family:var(--font-ui); font-size:13px; color:var(--text-light); margin-top:-12px;">
+    * MLP, TCN, and Dilated RNN serve as single-component ablation variants of SynerT.
+    Bold indicates the best value per column. SynerT's AUPRC improvement over Dilated RNN
+    is statistically significant (paired Wilcoxon, p = 0.024).
+  </p>
+
+  <div class="callout amber">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+    <div class="callout-body">
+      <strong>Why AUPRC matters more than AUROC here:</strong> With severe class imbalance,
+      AUROC can be misleadingly optimistic — a model that simply learns to rank a few obvious
+      AKI cases above obvious non-AKI cases can score 0.70 while completely missing the hard cases.
+      Precision-Recall analysis directly measures how well the model identifies the rare positive
+      class (AKI), which is what clinicians need. SynerT achieves the highest AUPRC, confirming
+      its superior practical utility for <em>reliable risk stratification</em>.
+    </div>
+  </div>
+
+  <div class="curves-grid">
+    <div class="curve-card">
+      <img src="roc_curves_all_models.png" alt="ROC curves comparison — top models" />
+      <div class="curve-caption">
+        <strong>(a) ROC Curves — Top Models.</strong> SynerT (0.691 ± 0.053) is competitive with the
+        best baselines. Dilated RNN achieves the highest AUROC (0.700 ± 0.052), but the difference
+        is not statistically significant.
+      </div>
+    </div>
+    <div class="curve-card">
+      <img src="pr_curves_all_models.png" alt="Precision-Recall curves — top models" />
+      <div class="curve-caption">
+        <strong>(b) Precision-Recall Curves — Top Models.</strong> SynerT (0.145 ± 0.082) maintains
+        higher precision across a wider recall range. This advantage is most pronounced at clinically
+        relevant operating points where false alarms must be minimised.
+      </div>
+    </div>
+  </div>
+
+  <div class="fig-caption" style="text-align:center; margin-top:-12px;">
+    <strong>Figure 2.</strong> Performance curves for all top-ranked models on VitalDB AKI prediction.
+    Curves represent ensemble means from out-of-fold predictions across 5 seeds × 5 folds.
+  </div>
+
+  <h3>SynerT Per-Fold Cross-Validation Performance</h3>
+  <p>
+    The following plots show SynerT's ROC and Precision-Recall curves per fold, illustrating
+    the variance across data partitions and the robustness of the model under different
+    patient cohort compositions.
+  </p>
+
+  <div class="curves-grid">
+    <div class="curve-card">
+      <img src="SynerT_roc_ensemble_mean.png" alt="SynerT ROC by fold" />
+      <div class="curve-caption">
+        <strong>(a) SynerT ROC per fold.</strong> Per-fold AUC ranges from 0.642 (Fold 4) to
+        0.733 (Fold 1), reflecting natural patient-population variation. The ensemble mean
+        (0.691) is representative of the cross-fold performance.
+      </div>
+    </div>
+    <div class="curve-card">
+      <img src="SynerT_pr_ensemble_mean.png" alt="SynerT PR by fold" />
+      <div class="curve-caption">
+        <strong>(b) SynerT PR per fold.</strong> Average Precision per fold spans 0.091–0.249.
+        Fold 1 (AP = 0.249) demonstrates particularly strong positive-class discrimination,
+        suggesting case-mix effects on minority-class prevalence.
+      </div>
+    </div>
+  </div>
+
+  <div class="fig-caption" style="text-align:center; margin-top:-12px;">
+    <strong>Figure 3.</strong> SynerT fold-level performance. Dashed line in the PR plot
+    indicates dataset prevalence (the no-skill baseline for AUPRC).
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ CASE ANALYSIS -->
+<section id="cases">
+  <div class="section-label">Qualitative Analysis</div>
+  <h2>Case-Level Physiological Trajectory Analysis</h2>
+
+  <p>
+    To understand where synergistic trajectory modeling adds value beyond sequence-only baselines,
+    four representative surgical cases are examined: two true AKI patients that SynerT correctly
+    identifies while single-branch baselines miss, and two non-AKI patients where SynerT avoids
+    false alarms triggered by the baselines.
+  </p>
+
+  <p>
+    Each case shows 7 physiological channels recorded over the surgery duration (~3,500 seconds
+    ≈ 58 minutes) — the full observation window available to the model. The header box shows
+    SynerT's predicted probability versus Dilated RNN and TCN baselines.
+  </p>
+
+  <h3>True Positive Cases — AKI Correctly Detected</h3>
+
+  <div class="case-grid">
+    <div class="case-card aki">
+      <div class="case-header">
+        <span class="case-dot"></span>Case I — True AKI
+      </div>
+      <img src="2327.png" alt="AKI Case I physiological trajectories" />
+      <div class="case-footer">
+        <div class="verdict-row">
+          <span class="verdict correct">SynerT: 0.580 ✓ AKI</span>
+          <span class="verdict wrong">Dilated RNN: 0.304 ✗ Non-AKI</span>
+          <span class="verdict wrong">TCN: 0.374 ✗ Non-AKI</span>
+        </div>
+        <div style="margin-top:7px; font-size:12px;">
+          Coordinated ART_MBP depression, progressive HR elevation, and ETCO₂ plateau —
+          a pattern of haemodynamic instability visible across channels that SynerT integrates
+          but single-branch models miss.
+        </div>
+      </div>
+    </div>
+    <div class="case-card aki">
+      <div class="case-header">
+        <span class="case-dot"></span>Case II — True AKI
+      </div>
+      <img src="3414.png" alt="AKI Case II physiological trajectories" />
+      <div class="case-footer">
+        <div class="verdict-row">
+          <span class="verdict correct">SynerT: 0.615 ✓ AKI</span>
+          <span class="verdict wrong">Dilated RNN: 0.343 ✗ Non-AKI</span>
+          <span class="verdict wrong">TCN: 0.433 ✗ Non-AKI</span>
+        </div>
+        <div style="margin-top:7px; font-size:12px;">
+          Sustained low ART_MBP with a late rebound, PLETH_SPO2 drop events, and rising
+          ART_SBP variability — the long-range accumulation of haemodynamic stress captured
+          by the Dilated RNN branch after fusion with TCN morphology.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>True Negative Cases — False Alarms Suppressed</h3>
+  <p>
+    These cases demonstrate SynerT's ability to recognise that isolated fluctuations in individual
+    channels do not constitute genuine AKI risk — reducing alarm fatigue that plagues single-scale models.
+  </p>
+
+  <div class="case-grid">
+    <div class="case-card naki">
+      <div class="case-header">
+        <span class="case-dot"></span>Case III — True Non-AKI
+      </div>
+      <img src="316.png" alt="Non-AKI Case III physiological trajectories" />
+      <div class="case-footer">
+        <div class="verdict-row">
+          <span class="verdict correct">SynerT: 0.429 ✓ Non-AKI</span>
+          <span class="verdict wrong">Dilated RNN: 0.673 ✗ AKI</span>
+          <span class="verdict wrong">TCN: 0.616 ✗ AKI</span>
+        </div>
+        <div style="margin-top:7px; font-size:12px;">
+          Brief ART_MBP spike (instrument artefact) and transient PLETH_SPO2 noise episodes
+          cause single-branch models to over-alert. SynerT's attention pooling down-weights
+          these artefactual segments, correctly identifying stable overall haemodynamics.
+        </div>
+      </div>
+    </div>
+    <div class="case-card naki">
+      <div class="case-header">
+        <span class="case-dot"></span>Case IV — True Non-AKI
+      </div>
+      <img src="649.png" alt="Non-AKI Case IV physiological trajectories" />
+      <div class="case-footer">
+        <div class="verdict-row">
+          <span class="verdict correct">SynerT: 0.350 ✓ Non-AKI</span>
+          <span class="verdict wrong">Dilated RNN: 0.573 ✗ AKI</span>
+          <span class="verdict wrong">TCN: 0.605 ✗ AKI</span>
+        </div>
+        <div style="margin-top:7px; font-size:12px;">
+          Repeated PLETH_SPO2 dips (likely probe movement) and ART_MBP gap (signal loss) trigger
+          false alarms in sequence-only models. SynerT correctly contextualises these as isolated
+          measurement artefacts rather than coordinated haemodynamic deterioration.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fig-caption" style="text-align:center; margin-top:8px;">
+    <strong>Figure 4.</strong> Case-level comparison between SynerT and single-branch baselines
+    (Dilated RNN, TCN) on four representative VitalDB surgical cases.
+    Red header = AKI patient; green header = Non-AKI patient.
+    Seven monitored physiological channels are shown per case over the full 60-minute window.
+  </div>
+
+  <div class="callout teal">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+    <div class="callout-body">
+      <strong>The synergy effect:</strong> In every case above, it is the <em>interaction</em> between
+      channels and across time scales that encodes the clinically meaningful signal. A sudden ART_MBP
+      drop alone may be a drug effect; a sustained ART_MBP depression <em>coupled with</em>
+      progressive HR elevation and ETCO₂ plateau indicates genuine haemodynamic compromise.
+      SynerT's dual-branch + attention architecture is specifically designed to capture these
+      coordinated multi-channel, multi-scale patterns.
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ STATISTICS -->
+<section id="statistics">
+  <div class="section-label">Statistical Validation</div>
+  <h2>Hypothesis Testing Against Strongest Baseline</h2>
+
+  <p>
+    Beyond reported means, the clinical utility of SynerT's AUPRC improvement must be established
+    with formal statistical testing. The comparison targets Dilated RNN — the strongest single-branch
+    baseline and an ablation component of SynerT itself.
+  </p>
+
+  <div class="stat-box">
+    <div class="stat-cell">
+      <div class="s-val">0.015</div>
+      <div class="s-name">ΔAUPRC mean</div>
+    </div>
+    <div class="stat-cell">
+      <div class="s-val">0.012</div>
+      <div class="s-name">ΔAUPRC median</div>
+    </div>
+    <div class="stat-cell">
+      <div class="s-val">p = 0.024</div>
+      <div class="s-name">Wilcoxon p-value</div>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></div>
+    <div class="callout-body">
+      <strong>Test design:</strong> A paired Wilcoxon signed-rank test (one-sided alternative:
+      SynerT &gt; Dilated RNN) was applied on AUPRC results across all
+      <strong>25 paired observations</strong> (5 random seeds × 5 cross-validation folds).
+      AUPRC was chosen as the primary metric given the severe class imbalance.
+      The improvement is statistically significant at α = 0.05.
+    </div>
+  </div>
+
+  <p>
+    In contrast, the AUROC difference (SynerT 0.691 vs. Dilated RNN 0.700) is <em>not</em>
+    statistically significant — consistent with the observation that ROC curves largely overlap
+    across dilation-based architectures and do not discriminate well under severe class imbalance.
+    This reinforces the choice of AUPRC as the primary evaluation criterion for intraoperative
+    AKI prediction.
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════════════ CONCLUSION -->
+<section id="conclusion">
+  <div class="section-label">Conclusion</div>
+  <h2>Summary and Future Directions</h2>
+
+  <p>
+    SynerT demonstrates that explicitly modeling physiological trajectories as multi-scale,
+    multi-channel time series — rather than treating each channel or time scale in isolation —
+    yields tangible improvements in early AKI risk stratification during surgery. The key advance
+    is the <strong>synergistic dual-branch architecture</strong>: TCN captures the morphological
+    transients that precede haemodynamic crises, Dilated RNN tracks the slow drift that reflects
+    cumulative renal stress, and temporal attention pooling selects the most informative moments
+    within the 60-minute early prediction window.
+  </p>
+
+  <p>
+    The statistically significant improvement in AUPRC (p = 0.024) over the strongest baseline
+    directly addresses the clinical requirement that matters most: <strong>fewer false alarms
+    without sacrificing sensitivity</strong>, enabling actionable intraoperative decision support
+    without contributing to alarm fatigue.
+  </p>
+
+  <h3>Limitations</h3>
+
+  <div class="callout amber">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+    <div class="callout-body">
+      <strong>Single-centre data:</strong> All experiments use the VitalDB Korean surgical cohort.
+      External validation on multi-centre, multi-demographic datasets is required to establish
+      generalisability across different surgical practices and patient populations.
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v5l-4 9a1 1 0 0 0 .9 1.45h10.2A1 1 0 0 0 18 17L14 8V3"/><line x1="6.5" y1="13" x2="17.5" y2="13"/></svg></div>
+    <div class="callout-body">
+      <strong>Signal scope:</strong> SynerT uses a focused set of commonly monitored haemodynamic
+      signals. Clinically relevant modalities not yet incorporated — urine output trends,
+      intraoperative laboratory markers, anaesthetic depth indices — may provide complementary
+      predictive value.
+    </div>
+  </div>
+
+  <h3>Future Work</h3>
+  <p>
+    Planned extensions include: (1) external validation across multi-centre cohorts with diverse
+    surgical specialties; (2) integration of postoperative longitudinal data to extend the
+    prediction horizon beyond the intraoperative window; (3) extension to other perioperative
+    complications (sepsis, haemorrhage, cardiac events); (4) incorporation of uncertainty
+    quantification to provide calibrated confidence intervals alongside the risk score; and
+    (5) clinician feedback mechanisms to align model operating points with ward-specific
+    alert thresholds.
+  </p>
+
+  <div class="callout teal">
+    <div class="callout-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+    <div class="callout-body">
+      <strong>Clinical outlook:</strong> The 60-minute early prediction window is precisely where
+      anaesthesiologists can act — by adjusting fluid management, vasopressor dosing, or surgical
+      pace — before irreversible renal damage accumulates. A reliable, low-false-alarm early warning
+      system embedded in existing monitoring infrastructure could meaningfully reduce the incidence
+      and severity of postoperative AKI.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <p>
+    <strong style="color:white;">SynerT — Physiological Trajectory Modeling for Early AKI Prediction</strong>
+  </p>
+  <div class="footer-div"></div>
+  <p>
+    Nguyen et al. &nbsp;·&nbsp; CITA 2026 &nbsp;·&nbsp;
+    Faculty of Data Science and Artificial Intelligence, National Economics University, Hanoi, Vietnam
+  </p>
+  <p style="margin-top:6px;">
+    Correspondence: <a href="mailto:nghiant@neu.edu.vn">nghiant@neu.edu.vn</a>
+    &nbsp;·&nbsp;
+    Acknowledgements: National Economics University (NEU)
+  </p>
+</footer>
+
+<button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+  const bar = document.getElementById('progress-bar');
+  const topBtn = document.getElementById('top-btn');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+    topBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting)
+        navLinks.forEach(a =>
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
