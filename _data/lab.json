@@ -12,24 +12,14 @@
   "apply_link": "mailto:brt-srt@neu.edu.vn?subject=Lab Application",
   "research_areas": [
     {
-      "title": "Business Analytics",
-      "icon": "📊",
-      "desc": "Data-driven insights for business strategy, market analysis, and decision support systems."
+      "title": "Molecular AI & Drug Discovery",
+      "image": "Smiles_blog/Molecule_method.jpg",
+      "desc": "Deep learning on molecular representations (SMILES sequences and molecular graphs) for drug property prediction — including toxicity screening, bioactivity, and ADMET profiling using multimodal fusion architectures."
     },
     {
-      "title": "Smart Technology",
-      "icon": "🤖",
-      "desc": "AI, machine learning, and IoT applications for intelligent business solutions."
-    },
-    {
-      "title": "Digital Transformation",
-      "icon": "🌐",
-      "desc": "Research on digital transformation strategies and enterprise information systems."
-    },
-    {
-      "title": "Fintech & E-Commerce",
-      "icon": "💳",
-      "desc": "Financial technology innovation, e-payment systems, and digital marketplace research."
+      "title": "Physiological Signal Analysis",
+      "image": "Synergy_blog/SynerT.jpg",
+      "desc": "Deep learning models for early clinical risk prediction from intraoperative and physiological time-series signals — including AKI and haemodynamic deterioration detection to support real-time surgical decision support."
     }
   ]
 }

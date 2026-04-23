@@ -22,7 +22,16 @@
 }
 
 .research-card {
-  padding: 28px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.research-preview {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
 }
 
 .research-icon {
@@ -31,8 +40,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-3);
+  margin: 28px 28px var(--space-3);
   font-size: 28px;
+}
+
+.research-card-body {
+  padding: 20px 24px 24px;
 }
 
 .research-title {

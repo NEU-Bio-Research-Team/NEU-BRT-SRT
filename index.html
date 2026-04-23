@@ -109,9 +109,13 @@
         if (areasEl) {
           const cards = (lab.research_areas || []).map((area) => `
             <article class="card research-card">
-              <div class="research-icon">${sanitize(area.icon || '')}</div>
-              <h3 class="research-title">${sanitize(area.title || '')}</h3>
-              <p class="research-desc">${sanitize(area.desc || '')}</p>
+              ${area.image
+                ? `<img class="research-preview" src="${sanitize(area.image)}" alt="${sanitize(area.title)}">`
+                : area.icon ? `<div class="research-icon">${sanitize(area.icon)}</div>` : ''}
+              <div class="research-card-body">
+                <h3 class="research-title">${sanitize(area.title || '')}</h3>
+                <p class="research-desc">${sanitize(area.desc || '')}</p>
+              </div>
             </article>
           `);
           areasEl.innerHTML = cards.join('');
