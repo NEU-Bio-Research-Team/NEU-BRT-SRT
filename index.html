@@ -108,7 +108,7 @@
         const areasEl = document.querySelector('#research-areas');
         if (areasEl) {
           const cards = (lab.research_areas || []).map((area) => `
-            <article class="card research-card">
+            <a class="card research-card" href="research-area.html?slug=${encodeURIComponent(area.slug || '')}">
               ${area.image
                 ? `<img class="research-preview" src="${sanitize(area.image)}" alt="${sanitize(area.title)}">`
                 : area.icon ? `<div class="research-icon">${sanitize(area.icon)}</div>` : ''}
@@ -116,7 +116,7 @@
                 <h3 class="research-title">${sanitize(area.title || '')}</h3>
                 <p class="research-desc">${sanitize(area.desc || '')}</p>
               </div>
-            </article>
+            </a>
           `);
           areasEl.innerHTML = cards.join('');
         }

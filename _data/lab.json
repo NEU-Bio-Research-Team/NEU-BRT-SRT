@@ -13,13 +13,35 @@
   "research_areas": [
     {
       "title": "Molecular AI & Drug Discovery",
+      "slug": "molecular-ai",
       "image": "Smiles_blog/Molecule_method.jpg",
-      "desc": "Deep learning on molecular representations (SMILES sequences and molecular graphs) for drug property prediction — including toxicity screening, bioactivity, and ADMET profiling using multimodal fusion architectures."
+      "desc": "Deep learning on molecular representations (SMILES sequences and molecular graphs) for drug property prediction — including toxicity screening, bioactivity, and ADMET profiling using multimodal fusion architectures.",
+      "posts": [
+        {
+          "title": "Advancing Clinical Toxicity Prediction Through Multimodal Fusion of SMILES Sequences and Molecular Graph Representation",
+          "venue": "CITA 2026",
+          "type": "Conference",
+          "year": 2026,
+          "authors": ["Thuy-Quynh Nguyen", "Trong-Nghia Nguyen", "Quang-Minh Nguyen", "Duc-Minh Le", "Nhat-Minh Nguyen Ho", "Thanh-Long Dai Doan"],
+          "link": "Smiles_blog/blog.html"
+        }
+      ]
     },
     {
       "title": "Physiological Signal Analysis",
+      "slug": "physiological-signal",
       "image": "Synergy_blog/SynerT.jpg",
-      "desc": "Deep learning models for early clinical risk prediction from intraoperative and physiological time-series signals — including AKI and haemodynamic deterioration detection to support real-time surgical decision support."
+      "desc": "Deep learning models for early clinical risk prediction from intraoperative and physiological time-series signals — including AKI and haemodynamic deterioration detection to support real-time surgical decision support.",
+      "posts": [
+        {
+          "title": "Physiological Trajectory Modeling for Early Prediction of Acute Kidney Injury During Surgery",
+          "venue": "CITA 2026",
+          "type": "Conference",
+          "year": 2026,
+          "authors": ["Quang-Minh Nguyen", "Trong-Nghia Nguyen", "Thuy-Quynh Nguyen", "Duc-Minh Le", "Nhat-Minh Nguyen Ho"],
+          "link": "Synergy_blog/blog.html"
+        }
+      ]
     }
   ]
 }

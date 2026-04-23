@@ -361,6 +361,75 @@
   margin: var(--space-4) 0 var(--space-4) 20px;
 }
 
+/* Research Area page */
+.area-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.area-back:hover {
+  color: #1B6EF3;
+}
+
+.area-banner-wrap {
+  padding: 0 0 var(--space-8);
+}
+
+.area-banner {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.area-posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.area-post-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: 20px 24px;
+}
+
+.area-post-read {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #F5F5F5;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.area-post-read:hover {
+  background: #1B6EF3;
+  color: #FFFFFF;
+}
+
+/* Research card hover as link */
+a.research-card {
+  display: block;
+  cursor: pointer;
+  color: inherit;
+}
+
+a.research-card:hover .research-title {
+  color: #1B6EF3;
+}
+
 /* Papers */
 .papers-list {
   display: flex;
