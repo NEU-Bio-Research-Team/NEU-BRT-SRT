@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM-Elicited Priors for Bitcoin Flash-Crash Simulation — COMOSA 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #0D1B3E;
+      --navy-mid:    #1A3066;
+      --navy-light:  #E8EDF8;
+      --gold:        #D97706;
+      --gold-light:  #FEF3C7;
+      --green:       #065F46;
+      --green-mid:   #059669;
+      --green-light: #D1FAE5;
+      --red:         #991B1B;
+      --red-light:   #FEE2E2;
+      --purple:      #5B21B6;
+      --purple-light:#EDE9FE;
+      --grey-100:    #F8FAFC;
+      --grey-200:    #E2E8F0;
+      --grey-400:    #94A3B8;
+      --grey-700:    #334155;
+      --grey-900:    #0F172A;
+      --text:        #1E293B;
+      --text-light:  #475569;
+      --border:      #CBD5E1;
+      --radius:      10px;
+      --shadow:      0 2px 16px rgba(0,0,0,0.08);
+      --shadow-lg:   0 8px 40px rgba(0,0,0,0.14);
+      --max-width:   840px;
+      --font-body:   'Georgia', 'Times New Roman', serif;
+      --font-ui:     'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono:   'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: #FFFFFF;
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    .ui  { font-family: var(--font-ui); }
+    .mono{ font-family: var(--font-mono); }
+
+    /* ── Progress bar ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0;
+      background: linear-gradient(90deg, var(--gold), #FBBF24);
+      z-index: 1000;
+      transition: width 0.1s linear;
+    }
+
+    /* ── Sticky nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 900;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      font-family: var(--font-ui);
+    }
+    nav .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      height: 48px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav .nav-inner::-webkit-scrollbar { display: none; }
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    nav a:hover, nav a.active {
+      color: var(--navy);
+      border-bottom-color: var(--gold);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(160deg, #060E22 0%, #0D1B3E 50%, #1A3066 100%);
+      color: white;
+      padding: 72px 24px 60px;
+      text-align: center;
+    }
+    .venue-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--font-ui);
+      font-size: clamp(22px, 3.8vw, 36px);
+      font-weight: 700;
+      line-height: 1.25;
+      max-width: 720px;
+      margin: 0 auto 20px;
+      letter-spacing: -0.01em;
+    }
+    .hero h1 span { color: #FCD34D; }
+    .hero .subtitle {
+      font-family: var(--font-ui);
+      font-size: 15.5px;
+      color: rgba(255,255,255,0.72);
+      max-width: 580px;
+      margin: 0 auto 32px;
+      line-height: 1.65;
+    }
+    .authors {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin-bottom: 26px;
+    }
+    .author-chip {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 4px 13px;
+    }
+    .author-chip.corresponding { border-color: #FCD34D; background: rgba(252,211,77,0.18); }
+    .affiliation {
+      font-family: var(--font-ui);
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 36px;
+    }
+    .hero-metrics {
+      display: flex; justify-content: center; gap: 36px; flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .hero-metric { text-align: center; }
+    .hero-metric .val {
+      font-family: var(--font-ui);
+      font-size: 34px;
+      font-weight: 800;
+      color: #FCD34D;
+      line-height: 1;
+    }
+    .hero-metric .lbl {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+    .hero-divider {
+      width: 1px; height: 50px;
+      background: rgba(255,255,255,0.18);
+      align-self: center;
+    }
+
+    /* ── Layout ── */
+    section {
+      padding: 60px 24px;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    section + section { padding-top: 0; }
+
+    .section-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: var(--font-ui);
+      font-size: clamp(20px, 2.8vw, 26px);
+      font-weight: 700;
+      color: var(--grey-900);
+      line-height: 1.3;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    h3 {
+      font-family: var(--font-ui);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--grey-900);
+      margin: 28px 0 10px;
+    }
+    p { margin-bottom: 18px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Abstract card ── */
+    .abstract-card {
+      background: var(--grey-100);
+      border-left: 4px solid var(--navy-mid);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+    }
+    .abstract-card .abstract-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy-mid);
+      margin-bottom: 10px;
+    }
+    .abstract-card p {
+      font-size: 15.5px;
+      line-height: 1.75;
+      margin-bottom: 0;
+    }
+
+    /* ── Keywords ── */
+    .keywords {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-top: 20px;
+    }
+    .kw-tag {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--navy-light);
+      color: var(--navy-mid);
+      border: 1px solid #C7D2F0;
+      border-radius: 4px;
+      padding: 3px 10px;
+    }
+
+    /* ── Callout ── */
+    .callout {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      margin: 28px 0;
+    }
+    .callout.navy   { background: var(--navy-light);   border-left: 4px solid var(--navy-mid); }
+    .callout.gold   { background: var(--gold-light);   border-left: 4px solid var(--gold); }
+    .callout.green  { background: var(--green-light);  border-left: 4px solid var(--green-mid); }
+    .callout.red    { background: var(--red-light);    border-left: 4px solid var(--red); }
+    .callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+    .callout-icon { font-size: 20px; flex-shrink: 0; line-height: 1.5; }
+    .callout-body { font-size: 15.5px; line-height: 1.7; }
+    .callout-body strong { font-family: var(--font-ui); }
+
+    /* ── Contribution cards ── */
+    .contrib-list {
+      display: flex; flex-direction: column; gap: 14px;
+      margin: 20px 0;
+    }
+    .contrib-card {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .contrib-num {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--navy-mid);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .contrib-body { font-size: 15.5px; line-height: 1.7; }
+    .contrib-body strong { font-family: var(--font-ui); }
+
+    /* ── Pipeline stages ── */
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .pipeline-card {
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border);
+    }
+    .pipeline-card.extract { background: var(--navy-light);   border-color: #C7D2F0; }
+    .pipeline-card.elicit  { background: var(--gold-light);   border-color: #FDE68A; }
+    .pipeline-card.simulate{ background: var(--green-light);  border-color: #A7F3D0; }
+    .pipeline-card.causal  { background: var(--purple-light); border-color: #DDD6FE; }
+    .pipeline-card h4 {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .pipeline-card.extract  h4 { color: var(--navy-mid); }
+    .pipeline-card.elicit   h4 { color: var(--gold); }
+    .pipeline-card.simulate h4 { color: var(--green-mid); }
+    .pipeline-card.causal   h4 { color: var(--purple); }
+    .pipeline-card ul {
+      list-style: none;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+    .pipeline-card ul li::before { content: "→ "; opacity: 0.5; }
+
+    /* ── Agent archetypes ── */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .agent-card {
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+    }
+    .agent-card.momentum  { background: #FFF7ED; border-color: #FED7AA; }
+    .agent-card.noise     { background: var(--grey-100); border-color: var(--grey-200); }
+    .agent-card.maker     { background: var(--green-light); border-color: #A7F3D0; }
+    .agent-card.contrarian{ background: var(--navy-light); border-color: #C7D2F0; }
+    .agent-card h4 {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .agent-card.momentum   h4 { color: #C2410C; }
+    .agent-card.noise      h4 { color: var(--grey-700); }
+    .agent-card.maker      h4 { color: var(--green-mid); }
+    .agent-card.contrarian h4 { color: var(--navy-mid); }
+    .agent-card p {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.65;
+      margin-bottom: 0;
+      color: var(--text-light);
+    }
+
+    /* ── Figure ── */
+    .fig-block { margin: 36px 0; text-align: center; }
+    .fig-block img {
+      max-width: 100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: block;
+      margin: 0 auto;
+    }
+    .fig-caption {
+      font-family: var(--font-ui);
+      font-size: 13.5px;
+      color: var(--text-light);
+      margin-top: 12px;
+      line-height: 1.55;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    .fig-caption strong { color: var(--text); }
+
+    /* ── Results table ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 28px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-ui);
+      font-size: 14px;
+    }
+    thead tr { background: var(--grey-900); color: white; }
+    thead th {
+      padding: 13px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    thead th:not(:first-child) { text-align: center; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--grey-100); }
+    tbody td { padding: 12px 16px; color: var(--text); }
+    tbody td:not(:first-child) { text-align: center; font-variant-numeric: tabular-nums; }
+    tbody tr.row-llm { background: #EFF6FF; }
+    tbody tr.row-llm td { color: var(--navy-mid); font-weight: 600; }
+    tbody tr.row-llm:hover { background: #DBEAFE; }
+    .tag-good { color: var(--green-mid); font-weight: 700; }
+    .tag-bad  { color: var(--red); font-weight: 700; }
+
+    /* ── Metrics strip ── */
+    .metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 28px 0;
+      box-shadow: var(--shadow);
+    }
+    .metric-cell {
+      background: white;
+      padding: 22px 16px;
+      text-align: center;
+    }
+    .metric-cell .m-val {
+      font-family: var(--font-ui);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--navy-mid);
+      line-height: 1;
+    }
+    .metric-cell .m-val.best { color: var(--green-mid); }
+    .metric-cell .m-val.warn { color: var(--gold); }
+    .metric-cell .m-name {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-top: 6px;
+    }
+    .metric-cell .m-delta {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .m-delta.pos { color: var(--green-mid); }
+    .m-delta.neg { color: var(--red); }
+
+    /* ── Intervention result cards ── */
+    .intervention-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .interv-card {
+      border-radius: var(--radius);
+      padding: 22px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .interv-card.strong { background: var(--green-light); border-color: #A7F3D0; }
+    .interv-card.weak   { background: var(--red-light);   border-color: #FECACA; }
+    .interv-card .iv-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .interv-card.strong .iv-label { color: var(--green-mid); }
+    .interv-card.weak   .iv-label { color: var(--red); }
+    .interv-card .iv-rate {
+      font-family: var(--font-ui);
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .interv-card.strong .iv-rate { color: var(--green); }
+    .interv-card.weak   .iv-rate { color: var(--red); }
+    .interv-card .iv-change {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--text-light);
+    }
+    .interv-card .iv-change strong { color: var(--text); }
+
+    /* ── Equation ── */
+    .eq-block {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      text-align: center;
+      padding: 16px 20px;
+      background: var(--grey-100);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      color: var(--grey-900);
+      margin: 20px 0;
+      letter-spacing: 0.02em;
+    }
+    .eq-block .eq-note {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 8px;
+      letter-spacing: 0;
+    }
+
+    /* ── Section divider ── */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--grey-900);
+      color: rgba(255,255,255,0.7);
+      padding: 40px 24px;
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    footer a { color: #FCD34D; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-divider { margin: 12px auto; width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
+
+    /* ── Scroll-to-top ── */
+    #top-btn {
+      position: fixed; bottom: 28px; right: 28px; z-index: 800;
+      width: 40px; height: 40px;
+      background: var(--navy-mid);
+      color: white;
+      border: none; border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 4px 16px rgba(13,27,62,0.4);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #top-btn.visible { opacity: 1; pointer-events: auto; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .pipeline-grid { grid-template-columns: 1fr; }
+      .agent-grid { grid-template-columns: 1fr; }
+      .intervention-grid { grid-template-columns: 1fr; }
+      .metrics-strip { grid-template-columns: 1fr 1fr; }
+      .hero-divider { display: none; }
+      .hero-metrics { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="nav-inner ui">
+    <a href="#abstract">Abstract</a>
+    <a href="#problem">Problem</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#simulation">Simulation</a>
+    <a href="#results">Results</a>
+    <a href="#causal">Causal Analysis</a>
+    <a href="#intervention">Counterfactuals</a>
+    <a href="#conclusion">Conclusion</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="venue-badge">
+    📄 COMOSA 2026 &nbsp;·&nbsp; Conference Paper
+  </div>
+  <h1>
+    Behavioral Prior Elicitation via LLM for<br>
+    <span>Heterogeneous-Agent Bitcoin Flash-Crash Simulation</span>
+  </h1>
+  <p class="subtitle">
+    A four-stage pipeline that anchors LLM-elicited behavioral priors to empirical microstructure,
+    instantiates them in a heterogeneous limit order book simulator, and applies causal discovery
+    with counterfactual analysis to study Bitcoin flash-crash amplification mechanisms.
+  </p>
+
+  <div class="authors">
+    <span class="author-chip">Tran Phuong Linh Pham</span>
+    <span class="author-chip">Thi Minh Phuong Ngo</span>
+    <span class="author-chip">Phuong Thao Nguyen</span>
+    <span class="author-chip">Quang Minh Nguyen</span>
+    <span class="author-chip">Thai Hoa Ngo</span>
+    <span class="author-chip corresponding">Trong Nghia Nguyen ✉</span>
+  </div>
+  <p class="affiliation">
+    National Economics University, Hanoi, Vietnam<br>
+    ✉ nghiant@neu.edu.vn
+  </p>
+
+  <div class="hero-metrics">
+    <div class="hero-metric">
+      <div class="val">66</div>
+      <div class="lbl">Flash-Crash Events</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-metric">
+      <div class="val">0.176</div>
+      <div class="lbl">LLM Crash Rate</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-metric">
+      <div class="val">22×</div>
+      <div class="lbl">vs Uniform Priors</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-metric">
+      <div class="val">−23%</div>
+      <div class="lbl">Leverage Mitigation</div>
+    </div>
+  </div>
+</header>
+
+
+<!-- Abstract -->
+<section id="abstract">
+  <div class="section-label">Abstract</div>
+  <h2>Overview</h2>
+
+  <div class="abstract-card">
+    <div class="abstract-label">Abstract</div>
+    <p>
+      Bitcoin perpetual futures trade continuously with shallow liquidity and high price impact,
+      making them prone to millisecond-scale flash crashes. Agent-based limit order book simulators
+      are a natural tool for studying such events, but their behavioral parameters are usually
+      hand-crafted or require full order book histories that are rarely available at scale. We propose
+      a <strong>four-stage pipeline</strong> that constructs a reproducible 100 ms BTCUSDT flash-crash
+      event panel from 66 detected events, elicits behavioral priors for four agent archetypes using
+      an offline large language model conditioned on empirical microstructure anchors, instantiates a
+      heterogeneous limit order book simulator with the validated priors, and applies causal discovery
+      plus counterfactual analysis to the resulting synthetic panel. Across 500 simulation runs,
+      LLM-elicited priors produce a <strong>crash rate of 0.176 versus 0.008</strong> under
+      uninformative uniform priors and generate heavier return tails. In the frozen counterfactual
+      analysis, reducing leverage amplification by one within-sample standard deviation lowers the
+      predicted crash rate from 0.176 to 0.136, whereas reducing directional pressure yields only a
+      marginal change.
+    </p>
+  </div>
+
+  <div class="keywords">
+    <span class="kw-tag">Bitcoin Flash Crash</span>
+    <span class="kw-tag">Agent-Based Simulation</span>
+    <span class="kw-tag">Large Language Model</span>
+    <span class="kw-tag">Causal Inference</span>
+    <span class="kw-tag">Limit Order Book</span>
+    <span class="kw-tag">Behavioral Prior Elicitation</span>
+    <span class="kw-tag">Counterfactual Analysis</span>
+    <span class="kw-tag">Market Microstructure</span>
+  </div>
+
+  <div class="contrib-list" style="margin-top:32px;">
+    <div class="contrib-card">
+      <div class="contrib-num">1</div>
+      <div class="contrib-body">
+        <strong>66-Event BTCUSDT Panel:</strong> A reproducible 100 ms flash-crash event corpus spanning
+        June 2020 to December 2024, paired with phase-level microstructure features covering price dynamics,
+        order flow, liquidity, and toxicity proxies.
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">2</div>
+      <div class="contrib-body">
+        <strong>Constrained LLM Elicitation Pipeline:</strong> Structured prompts conditioned on empirical
+        microstructure anchors, with bounded-support, variance, and cross-archetype sanity gates before any
+        prior enters the simulator.
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">3</div>
+      <div class="contrib-body">
+        <strong>Heterogeneous LOB Simulator:</strong> A four-archetype (momentum, noise, market maker,
+        contrarian) simulator parameterised entirely from validated LLM-elicited priors rather than
+        hand-crafted assumptions.
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num">4</div>
+      <div class="contrib-body">
+        <strong>Causal &amp; Counterfactual Analysis:</strong> DAGMA and DirectLiNGAM applied to the
+        run-level synthetic panel for mechanism verification, with support-preserving counterfactual
+        interventions on leverage and directional pressure.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Problem -->
+<section id="problem">
+  <div class="section-label">Motivation</div>
+  <h2>Why Bitcoin Flash Crashes Are Hard to Simulate</h2>
+
+  <p>
+    Bitcoin perpetual futures occupy a structurally distinct position in modern financial markets.
+    They trade continuously, carry no expiry date, support persistent leveraged positions, and exhibit
+    order book dynamics unlike any equity or dated-futures venue. The result: concentrated liquidity
+    near the best quotes, shallow depth beyond the top levels, and elevated price impact — all of which
+    make these markets <strong>especially vulnerable to millisecond-scale flash crashes</strong>.
+  </p>
+
+  <div class="callout red">
+    <div class="callout-icon">⚡</div>
+    <div class="callout-body">
+      <strong>The calibration gap:</strong> Agent-based limit order book simulators are the natural
+      tool for studying flash crashes, but their behavioral parameters are either hand-crafted
+      (lacking market-specific grounding for crypto) or require sub-second Level-2 order book
+      histories that are rarely available at scale.
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-icon">🤖</div>
+    <div class="callout-body">
+      <strong>The LLM opportunity — with a catch:</strong> Large language models can elicit behaviorally
+      plausible parameter priors from structured prompts, but without empirical discipline their outputs
+      may be narratively reasonable yet quantitatively wrong, failing to reproduce the microstructure
+      regularities of the target market.
+    </div>
+  </div>
+
+  <div class="callout navy">
+    <div class="callout-icon">🔬</div>
+    <div class="callout-body">
+      <strong>Our approach:</strong> Combine empirical anchoring with offline LLM elicitation.
+      By conditioning the LLM on phase-level microstructure summaries (OFI quantiles, Kyle's λ,
+      realized volatility, bid-ask spread) and enforcing sanity gates before the priors enter the
+      simulator, we get behavioral realism without requiring tick-level data for every run.
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Pipeline -->
+<section id="pipeline">
+  <div class="section-label">Methodology</div>
+  <h2>Four-Stage Pipeline</h2>
+
+  <div class="fig-block">
+    <img src="framework.png" alt="Overall framework: empirical extraction → LLM elicitation → LOB simulation → causal analysis" />
+    <div class="fig-caption">
+      <strong>Figure 1.</strong> Overall pipeline. Empirical BTCUSDT flash-crash events feed phase-level
+      microstructure summaries into an offline LLM (Mistral-7B). The validated priors parameterise a
+      heterogeneous LOB simulator, and the resulting 500-run synthetic panel is analysed with DAGMA
+      and DirectLiNGAM for mechanism verification and counterfactual sensitivity.
+    </div>
+  </div>
+
+  <div class="pipeline-grid">
+    <div class="pipeline-card extract">
+      <h4>① Event Extraction</h4>
+      <ul>
+        <li>Tardis API — 100 ms BTCUSDT data (2020–2024)</li>
+        <li>Flash crash: ≥3% drop in 5 min + ≥50% recovery</li>
+        <li>66 events detected, deduplicated by 4-hour window</li>
+        <li>Phase labels: pre / drop / recovery / post</li>
+        <li>Microstructure: OFI, spread, depth, Kyle's λ, VPIN</li>
+      </ul>
+    </div>
+    <div class="pipeline-card elicit">
+      <h4>② LLM Elicitation</h4>
+      <ul>
+        <li>Model: Mistral-7B (offline, fixed temperature)</li>
+        <li>Prompts conditioned on phase-level μ<sub>φ</sub></li>
+        <li>Targets: aggressiveness, cancel rate, order size</li>
+        <li>Sanity gates: bounded support, variance, cross-archetype</li>
+        <li>Priors frozen — no further LLM calls after fitting</li>
+      </ul>
+    </div>
+    <div class="pipeline-card simulate">
+      <h4>③ LOB Simulation</h4>
+      <ul>
+        <li>100 agents, 4 archetypes, 500 independent runs</li>
+        <li>100 ms tick interval; Poisson agent activation</li>
+        <li>Phase-specific priors activated progressively</li>
+        <li>Kyle-style linearised price-impact rule</li>
+        <li>Market makers withdraw on volatility threshold</li>
+      </ul>
+    </div>
+    <div class="pipeline-card causal">
+      <h4>④ Causal Analysis</h4>
+      <ul>
+        <li>Run-level panel Z ∈ ℝ<sup>500×p</sup></li>
+        <li>DAGMA: continuous acyclicity-constrained DAG</li>
+        <li>DirectLiNGAM: non-Gaussian directionality check</li>
+        <li>Logistic counterfactual on leverage &amp; OFI</li>
+        <li>Support-preserving intervention (−1 std, floored at non-crash median)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Agent Archetypes</h3>
+  <p>
+    Each simulation run instantiates 100 agents drawn from four archetypes. Their behavioral parameters
+    are sampled from phase-conditional LLM-elicited priors, not fixed values.
+  </p>
+
+  <div class="agent-grid">
+    <div class="agent-card momentum">
+      <h4>📈 Momentum Traders</h4>
+      <p>Trade in the direction of recent price trends. Amplify directional pressure during the drop
+      phase, accelerating the cascade once selling begins.</p>
+    </div>
+    <div class="agent-card noise">
+      <h4>🎲 Noise Traders</h4>
+      <p>Trade randomly, providing baseline order flow. Arrival rate calibrated directly from phase-level
+      empirical trade intensity rather than elicited from the LLM.</p>
+    </div>
+    <div class="agent-card maker">
+      <h4>🏦 HFT Market Makers</h4>
+      <p>Post passive limit quotes on both sides. Each draws a volatility-withdrawal threshold σ*;
+      once volatility exceeds it they cancel all quotes — the primary liquidity amplification channel.</p>
+    </div>
+    <div class="agent-card contrarian">
+      <h4>🔄 Contrarian Traders</h4>
+      <p>Buy against sufficiently deep drawdowns, accumulating long inventory. They are the primary
+      recovery driver once the drop phase exhausts selling pressure.</p>
+    </div>
+  </div>
+
+  <h3>Flash-Crash Detection (Simulation)</h3>
+  <p>
+    A simulated run is classified as a crash if price falls ≥1.93% within a 10-step (1-second) window —
+    calibrated from the 10th percentile of the rolling-10-tick drawdown distribution across the
+    empirical 66-event panel. This threshold is distinct from the historical detector (≥3% in 5 minutes)
+    used to build the event corpus.
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Simulation -->
+<section id="simulation">
+  <div class="section-label">Microstructure</div>
+  <h2>Temporal Anatomy of a Simulated Crash</h2>
+
+  <p>
+    The locked LLM panel does not generate isolated price jumps. Instead, crash events emerge through
+    a <strong>coordinated mechanical sequence</strong>: directional pressure turns sharply negative,
+    quoted trading cost rises as book balance deteriorates, trading activity accelerates, and price
+    then falls in a concentrated burst with only partial early recovery.
+  </p>
+
+  <div class="fig-block">
+    <img src="figures/paper/figure_02_temporal_anatomy_llm.png"
+         alt="Temporal anatomy: price, OFI, spread, depth imbalance, and trade intensity around a simulated crash" />
+    <div class="fig-caption">
+      <strong>Figure 2.</strong> Temporal anatomy of the locked LLM crash panel, aligned at the first
+      detected crash. Price (top), directional pressure (OFI), quoted trading cost (spread), book balance,
+      and trading activity co-move in the expected crash sequence. This should be interpreted as correct
+      sequencing and co-movement — not perfect amplitude calibration against the empirical reference.
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon">⚙️</div>
+    <div class="callout-body">
+      <strong>The amplification loop:</strong> Rising volatility triggers market-maker withdrawal
+      (their σ* threshold is exceeded), which widens spreads and thins depth. This in turn makes
+      the same amount of net order flow produce larger price changes via the Kyle-style impact rule
+      (Eq. 7), completing the feedback loop that drives the crash.
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Results -->
+<section id="results">
+  <div class="section-label">Experiments</div>
+  <h2>Three-Way Locked Comparison</h2>
+
+  <p>
+    The LLM condition is evaluated against two locked baselines on the same frozen 500-run panel:
+    a <strong>broad uniform prior</strong> (uninformative) and a <strong>literature prior</strong>
+    (hand-crafted values from prior simulation studies). The LLM condition is considered successful
+    if it dominates the broad baseline and remains non-inferior to the literature baseline on crash
+    incidence and mean short-horizon drawdown.
+  </p>
+
+  <div class="metrics-strip">
+    <div class="metric-cell">
+      <div class="m-val best">0.176</div>
+      <div class="m-name">LLM Crash Rate</div>
+      <div class="m-delta pos">↑ vs 0.008 (uniform)</div>
+    </div>
+    <div class="metric-cell">
+      <div class="m-val warn">1.328%</div>
+      <div class="m-name">Mean Drawdown</div>
+      <div class="m-delta pos">↑ vs 0.612% (uniform)</div>
+    </div>
+    <div class="metric-cell">
+      <div class="m-val">88</div>
+      <div class="m-name">Crash Runs / 500</div>
+      <div class="m-delta neg">Tails 295× below empirical</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th>Empirical Ref.</th>
+          <th>LLM</th>
+          <th>Broad (Uniform)</th>
+          <th>Literature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tail thickness of returns (kurtosis)</td>
+          <td>8,581.8</td>
+          <td>29.1</td>
+          <td>26.5</td>
+          <td>77.2</td>
+        </tr>
+        <tr>
+          <td>Volatility persistence</td>
+          <td>1.000</td>
+          <td><span class="tag-good">1.000 ✓</span></td>
+          <td>1.000</td>
+          <td>1.000</td>
+        </tr>
+        <tr>
+          <td>Directional flow, pre-crash phase</td>
+          <td>0.264</td>
+          <td>0.187</td>
+          <td>0.115</td>
+          <td>0.185</td>
+        </tr>
+        <tr>
+          <td>Directional flow, drop phase</td>
+          <td>−2.699</td>
+          <td>−5.039</td>
+          <td>−2.912</td>
+          <td>−2.881</td>
+        </tr>
+        <tr class="row-llm">
+          <td>Crash incidence (target: 0.05–0.40)</td>
+          <td>0.05–0.40</td>
+          <td><span class="tag-good">0.176 ✓</span></td>
+          <td><span class="tag-bad">0.008 ✗</span></td>
+          <td>0.152</td>
+        </tr>
+        <tr>
+          <td>Mean short-horizon drawdown (%)</td>
+          <td>—</td>
+          <td>1.328</td>
+          <td>0.612</td>
+          <td>1.128</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    The LLM condition clearly improves over the broad-prior baseline on crash incidence and mean
+    drawdown, and remains competitive with the literature baseline. It does not reproduce the full
+    tail magnitude of the crash-conditioned BTC reference panel (a 295× kurtosis gap), nor does it
+    perfectly match drop-phase directional flow — both expected limitations of a linear price-impact
+    rule with static within-run sampling. The appropriate read is <em>competitiveness</em>, not
+    uniform superiority.
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Causal Analysis -->
+<section id="causal">
+  <div class="section-label">Structure Learning</div>
+  <h2>Recovering Crash Mechanisms from the Synthetic Panel</h2>
+
+  <p>
+    The run-level panel Z ∈ ℝ<sup>500×p</sup> summarises the pre-crash state for each of the 500
+    simulation realizations. Two complementary graph-learning methods test whether standard algorithms
+    recover the embedded crash pathways from cross-run variation. This is a
+    <strong>simulator-internal mechanism check</strong>, not a causal claim about real Bitcoin markets.
+  </p>
+
+  <div class="callout purple">
+    <div class="callout-icon">🧠</div>
+    <div class="callout-body">
+      <strong>Why synthetic data for causal analysis?</strong> Historical BTC market data does not
+      provide the controlled variation needed for credible causal recovery — order flow, leverage, and
+      external shocks co-vary in ways that cannot be disentangled observationally. The synthetic panel,
+      generated by a known mechanism, allows structure recovery to serve as a meaningful consistency check.
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Pre-Crash Summary</th>
+          <th>Non-Crash Mean</th>
+          <th>Crash Mean</th>
+          <th>Mann-Whitney p</th>
+          <th>Best AUC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Directional pressure (OFI)</td>
+          <td>0.0112</td>
+          <td>0.2646</td>
+          <td>4.07×10⁻³⁹</td>
+          <td>0.944</td>
+        </tr>
+        <tr>
+          <td>Book imbalance</td>
+          <td>0.0004</td>
+          <td>0.0106</td>
+          <td>4.15×10⁻³⁹</td>
+          <td>0.944</td>
+        </tr>
+        <tr class="row-llm">
+          <td>Leverage peak (Λ<sub>max</sub>)</td>
+          <td>1.1115</td>
+          <td>1.3446</td>
+          <td>6.11×10⁻⁴⁶</td>
+          <td>0.983</td>
+        </tr>
+        <tr>
+          <td>Mean wealth</td>
+          <td>175,485</td>
+          <td>179,189</td>
+          <td>1.77×10⁻⁴⁵</td>
+          <td>0.980</td>
+        </tr>
+        <tr>
+          <td>Wealth concentration</td>
+          <td>0.9456</td>
+          <td>0.9128</td>
+          <td>2.39×10⁻⁴⁵</td>
+          <td>0.980</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    DAGMA retains a <strong>direct edge from pre-crash leverage into the crash label</strong>, while
+    DirectLiNGAM assigns the most stable crash-adjacent role to wealth-level summaries. Directional
+    pressure and book imbalance are strongly separated across crash and non-crash runs but do not
+    recover as uniformly oriented crash edges once the panel is no longer label-conditioned by
+    construction. The most defensible conclusion is <em>partial structural consistency</em>: leverage
+    emerges as the most stable simulator-internal amplifier signal.
+  </p>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Counterfactuals -->
+<section id="intervention">
+  <div class="section-label">Counterfactual Analysis</div>
+  <h2>Which Lever Matters More — Directional Pressure or Leverage?</h2>
+
+  <p>
+    Using the fitted logistic model and the frozen run-level panel, we estimate local,
+    support-preserving counterfactual sensitivity to reductions in two pre-crash channels.
+    Each intervention reduces the target feature by one within-panel standard deviation,
+    floored at the non-crash median so the intervention stays on the data manifold.
+  </p>
+
+  <div class="eq-block">
+    x̃<sub>rj</sub> = max{ x<sub>rj</sub> − σ<sub>j</sub> , m<sub>j</sub><sup>(0)</sup> }
+    <span class="eq-note">σ<sub>j</sub> = within-panel std of feature j &nbsp;·&nbsp; m<sub>j</sub><sup>(0)</sup> = non-crash median (floor)</span>
+  </div>
+
+  <div class="intervention-grid">
+    <div class="interv-card strong">
+      <div class="iv-label">✅ Leverage Mitigation (Λ<sub>max</sub>)</div>
+      <div class="iv-rate">0.136</div>
+      <div class="iv-change">from baseline <strong>0.176</strong> &nbsp;→&nbsp; <strong>−22.83%</strong> crash rate reduction</div>
+    </div>
+    <div class="interv-card weak">
+      <div class="iv-label">⚠️ Directional Pressure Mitigation (OFI)</div>
+      <div class="iv-rate">0.174</div>
+      <div class="iv-change">from baseline <strong>0.176</strong> &nbsp;→&nbsp; <strong>−0.98%</strong> crash rate reduction</div>
+    </div>
+  </div>
+
+  <div class="fig-block">
+    <img src="figures/paper/figure_03_precrash_and_interventions.png"
+         alt="Pre-crash separation and local mitigation effects: directional pressure as a warning signal, leverage as the key amplifier" />
+    <div class="fig-caption">
+      <strong>Figure 3.</strong> Pre-crash separation and local mitigation effects on the symmetric
+      trailing-window LLM panel. Directional pressure is a strong <em>warning signal</em> — it
+      separates crash from non-crash runs clearly — but leverage is the cleaner <em>local amplifier</em>:
+      reducing it by one standard deviation produces a meaningful crash-rate reduction, while the same
+      reduction in directional pressure has negligible effect.
+    </div>
+  </div>
+
+  <div class="callout gold">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <strong>Interpretation:</strong> Within the simulator, leverage amplification is the more
+      consequential crash-amplification channel. Directional pressure (OFI) is a reliable early-warning
+      signal but not the primary lever for crash mitigation in a counterfactual sense. This contrast
+      holds robustly across 0, 20, and 50 tick gap ablations with the broader feature set.
+      All causal claims are restricted to the simulated environment.
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- Conclusion -->
+<section id="conclusion">
+  <div class="section-label">Conclusion</div>
+  <h2>Summary and Limitations</h2>
+
+  <p>
+    This paper presents a simulation-first framework that transforms empirical BTCUSDT flash-crash evidence
+    into behaviorally grounded agent priors, validates them against microstructure anchors, instantiates
+    them in a heterogeneous limit order book simulator, and studies crash-amplification mechanisms through
+    structural verification and local counterfactual sensitivity analysis.
+  </p>
+
+  <p>
+    The central finding is not that LLM outputs are behaviourally true, but that <strong>LLM-elicited
+    priors become useful simulator inputs when constrained by empirical anchors and evaluated against
+    explicit baselines</strong>. The LLM condition attains a crash rate of 0.176, well inside the
+    0.05–0.40 target band, while the uninformative broad baseline produces only 0.008 — a 22× gap.
+    Leverage mitigation yields a −22.83% crash-rate reduction; directional pressure mitigation yields
+    only −0.98%. Within the simulator, leverage amplification therefore emerges as the more consequential
+    local crash-amplification channel.
+  </p>
+
+  <h3>Known Limitations</h3>
+
+  <div class="callout red">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <strong>Tail thickness gap (295×):</strong> Empirical BTC crash kurtosis is 8,581 versus the
+      simulator's 29. This stems from a linear price-impact rule (which near-Gaussianizes aggregate
+      order flow), static within-run parameter sampling (no real-time strategy switching or herding),
+      and sanity gates that remove extreme behavioral proposals. Closing this gap via non-linear impact
+      and dynamic strategy switching is the primary future-work direction.
+    </div>
+  </div>
+
+  <div class="callout navy">
+    <div class="callout-icon">📋</div>
+    <div class="callout-body">
+      <strong>Scope boundaries:</strong> Several variables are fallback constructions from trade-level
+      data rather than canonical Level-2 measurements. Structured news inputs, direct liquidation feeds,
+      and canonical order book reconstructions remain absent. The fixed population of 100 agents across
+      four archetypes simplifies relative to the behavioral diversity of actual BTC perpetual futures
+      participants. All causal claims are restricted to mechanisms operating inside the simulator.
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>
+    <strong style="color:white;">Behavioral Prior Elicitation via LLM for Heterogeneous-Agent Bitcoin Flash-Crash Simulation</strong>
+  </p>
+  <div class="footer-divider"></div>
+  <p>
+    Pham et al. &nbsp;·&nbsp; COMOSA 2026 &nbsp;·&nbsp;
+    Faculty of Data Science and Artificial Intelligence, National Economics University, Hanoi, Vietnam
+  </p>
+  <p style="margin-top:6px;">
+    Correspondence: <a href="mailto:nghiant@neu.edu.vn">nghiant@neu.edu.vn</a>
+    &nbsp;·&nbsp;
+    <a href="https://comosa.vn/" target="_blank" rel="noopener">comosa.vn</a>
+  </p>
+</footer>
+
+<button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<script>
+  const bar = document.getElementById('progress-bar');
+  const topBtn = document.getElementById('top-btn');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+    topBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

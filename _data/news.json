@@ -1,5 +1,14 @@
 [
   {
+    "id": "news-2026-08-08-comosa",
+    "category": "Publication",
+    "date": "2026-08-08",
+    "title": "BTC Flash-Crash simulation paper accepted at COMOSA 2026",
+    "body": "Our paper <em>Behavioral Prior Elicitation via LLM for Heterogeneous-Agent Bitcoin Flash-Crash Simulation</em> has been accepted at the Conference on Optimization, Modeling, Simulation, and Analytics (COMOSA 2026).",
+    "link": "Comosa_BTC_Flash_Crash/blog.html",
+    "pinned": true
+  },
+  {
     "id": "news-2026-08-08",
     "category": "Publication",
     "date": "2026-08-08",

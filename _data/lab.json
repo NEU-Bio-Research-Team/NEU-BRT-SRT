@@ -28,6 +28,22 @@
       ]
     },
     {
+      "title": "Financial AI & Market Simulation",
+      "slug": "financial-ai",
+      "image": "Comosa_BTC_Flash_Crash/framework.png",
+      "desc": "Agent-based simulation and LLM-elicited behavioral priors for studying cryptocurrency flash-crash dynamics — combining empirical microstructure anchoring, heterogeneous limit order book modeling, and causal discovery for counterfactual analysis.",
+      "posts": [
+        {
+          "title": "Behavioral Prior Elicitation via LLM for Heterogeneous-Agent Bitcoin Flash-Crash Simulation",
+          "venue": "COMOSA 2026",
+          "type": "Conference",
+          "year": 2026,
+          "authors": ["Tran Phuong Linh Pham", "Thi Minh Phuong Ngo", "Phuong Thao Nguyen", "Quang Minh Nguyen", "Thai Hoa Ngo", "Trong Nghia Nguyen"],
+          "link": "Comosa_BTC_Flash_Crash/blog.html"
+        }
+      ]
+    },
+    {
       "title": "Physiological Signal Analysis",
       "slug": "physiological-signal",
       "image": "Synergy_blog/SynerT.jpg",
