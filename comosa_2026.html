@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEU Research Teams Present Two Papers at COMOSA 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:        #111111;
+      --ink-mid:    #333333;
+      --ink-light:  #555555;
+      --ink-faint:  #888888;
+      --rule:       #CCCCCC;
+      --rule-dark:  #333333;
+      --bg:         #FAFAF8;
+      --bg-cream:   #F5F3EE;
+      --accent:     #9B1C1C;
+      --accent-lt:  #FEF2F2;
+      --max:        740px;
+      --font-head:  'Playfair Display', Georgia, serif;
+      --font-body:  'Source Serif 4', Georgia, serif;
+      --font-ui:    'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    /* ── Masthead ── */
+    .masthead {
+      border-bottom: 3px double var(--rule-dark);
+      padding: 18px 24px 14px;
+      text-align: center;
+    }
+    .masthead-site {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 6px;
+    }
+    .masthead-site a { color: inherit; text-decoration: none; }
+    .masthead-site a:hover { color: var(--accent); }
+    .masthead-rule {
+      border: none;
+      border-top: 1px solid var(--rule-dark);
+      margin: 10px auto 0;
+      max-width: var(--max);
+    }
+
+    /* ── Article wrapper ── */
+    .article {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Category + date ── */
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 0 14px;
+      border-bottom: 1px solid var(--rule);
+      font-family: var(--font-ui);
+      font-size: 12px;
+    }
+    .category-pill {
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-size: 11px;
+    }
+    .meta-date { color: var(--ink-faint); }
+    .meta-dot  { color: var(--rule); }
+
+    /* ── Headline block ── */
+    .headline-block { padding: 22px 0 0; }
+    .headline-block h1 {
+      font-family: var(--font-head);
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+    .subheadline {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--ink-mid);
+      font-style: italic;
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      margin-bottom: 20px;
+    }
+    .byline {
+      font-family: var(--font-ui);
+      font-size: 12.5px;
+      color: var(--ink-faint);
+      padding: 14px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 3px double var(--rule);
+      margin-bottom: 28px;
+    }
+    .byline strong { color: var(--ink-mid); }
+
+    /* ── Body text ── */
+    .article p {
+      font-size: 17.5px;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      color: var(--ink-mid);
+    }
+    .article p:first-child::first-letter {
+      font-family: var(--font-head);
+      font-size: 4.2em;
+      font-weight: 900;
+      float: left;
+      line-height: 0.78;
+      margin: 6px 8px 0 -2px;
+      color: var(--ink);
+    }
+    .article p strong { color: var(--ink); }
+
+    /* ── Section rule ── */
+    .section-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 36px 0 24px;
+    }
+    .section-rule::before,
+    .section-rule::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+    .section-rule span {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      white-space: nowrap;
+    }
+
+    /* ── Images ── */
+    .img-full {
+      margin: 28px -24px;
+      overflow: hidden;
+    }
+    .img-full img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 560px;
+    }
+    .img-inset {
+      margin: 28px 0;
+    }
+    .img-inset img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--rule);
+    }
+    .img-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .img-pair-item img {
+      width: 100%;
+      display: block;
+      border: 1px solid var(--rule);
+      object-fit: cover;
+      height: 100%;
+    }
+    .img-caption {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--ink-faint);
+      line-height: 1.55;
+      padding: 8px 0 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 6px;
+    }
+    .img-caption em { font-style: normal; color: var(--ink-light); }
+
+    /* ── Pull quote ── */
+    .pull-quote {
+      border-top: 3px solid var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 0 18px;
+      margin: 36px 0;
+    }
+    .pull-quote p {
+      font-family: var(--font-head);
+      font-size: clamp(19px, 3vw, 23px);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 10px !important;
+    }
+    .pull-quote p::first-letter { all: unset; }
+    .pull-quote cite {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-style: normal;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Paper spotlight box ── */
+    .paper-box {
+      background: var(--bg-cream);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--accent);
+      padding: 20px 22px;
+      margin: 28px 0;
+    }
+    .paper-box-label {
+      font-family: var(--font-ui);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .paper-box h3 {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .paper-box p {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--ink-light);
+      margin-bottom: 0 !important;
+    }
+    .paper-box p::first-letter { all: unset; }
+    .paper-box p + p { margin-top: 6px !important; }
+    .paper-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--rule);
+    }
+    .paper-meta-item {
+      font-family: var(--font-ui);
+      font-size: 11.5px;
+      color: var(--ink-faint);
+    }
+    .paper-meta-item strong { color: var(--ink-mid); }
+
+    /* ── Info strip ── */
+    .info-strip {
+      background: var(--ink);
+      color: white;
+      padding: 16px 20px;
+      margin: 28px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+    }
+    .info-cell { padding: 4px 16px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .info-cell:first-child { padding-left: 0; }
+    .info-cell:last-child  { border-right: none; }
+    .info-cell .ic-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 3px;
+    }
+    .info-cell .ic-val {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      line-height: 1.35;
+    }
+
+    /* ── Footer ── */
+    .article-footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 20px 24px 40px;
+      border-top: 3px double var(--rule-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .article-footer-lab {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+    .article-footer-lab a { color: var(--accent); text-decoration: none; }
+    .article-footer-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .tag {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 3px 9px;
+      color: var(--ink-light);
+    }
+
+    @media (max-width: 560px) {
+      .img-full { margin: 28px -24px; }
+      .img-pair  { grid-template-columns: 1fr; }
+      .info-strip { grid-template-columns: 1fr; }
+      .info-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.15); padding: 8px 0; }
+      .info-cell:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Masthead -->
+<div class="masthead">
+  <div class="masthead-site">
+    <a href="index.html">Bio Research Team &amp; Stress Research Team · National Economics University</a>
+  </div>
+  <hr class="masthead-rule">
+</div>
+
+<article class="article">
+
+  <!-- Category + date -->
+  <div class="article-meta">
+    <span class="category-pill">Conference Coverage</span>
+    <span class="meta-dot">·</span>
+    <span class="meta-date">August 8, 2026</span>
+    <span class="meta-dot">·</span>
+    <span class="meta-date" style="color:var(--ink-light)">BRT-SRT Lab, NEU</span>
+  </div>
+
+  <!-- Headline -->
+  <div class="headline-block">
+    <h1>NEU Research Teams Present Two Papers at COMOSA 2026 International Conference in Hanoi</h1>
+    <p class="subheadline">
+      Members of the Bio Research Team and Stress Research Team participated in the two-day international symposium at Foreign Trade University, with accepted papers set for publication in Springer's <em>Optimization and Its Applications</em> series.
+    </p>
+    <div class="byline">
+      <strong>By BRT-SRT Lab</strong> &nbsp;·&nbsp; National Economics University, Faculty of Data Science and Artificial Intelligence &nbsp;·&nbsp; August 8, 2026
+    </div>
+  </div>
+
+  <!-- Lead image -->
+  <div class="img-full">
+    <img src="comosa_brt1.jpg" alt="BRT members and mentors at COMOSA 2026 conference backdrop, Foreign Trade University, Hanoi" />
+  </div>
+  <div class="img-caption">
+    <em>Photo: BRT-SRT Lab</em> &nbsp;·&nbsp; Bio Research Team members together with mentors Asst. Prof. Trong-Nghia Nguyen and Ms. Thai-Hoa Ngo at the COMOSA 2026 conference venue, VJCC Building, Foreign Trade University, Hanoi, August 7–8, 2026.
+  </div>
+
+  <!-- Lead paragraphs -->
+  <p style="margin-top:28px;">
+    Members of the <strong>Bio Research Team (BRT)</strong> and <strong>Stress Research Team (SRT)</strong>
+    from the Faculty of Data Science and Artificial Intelligence, National Economics University (NEU),
+    attended and presented two peer-reviewed research papers at the International Conference on
+    Optimization, Modeling, Simulation, and Analytics — <strong>COMOSA 2026</strong> — held on
+    August 7–8, 2026 at the Vietnam–Japan Institute for Human Resources Development (VJCC), Foreign
+    Trade University, Hanoi, Vietnam.
+  </p>
+
+  <p>
+    COMOSA is a prestigious interdisciplinary forum co-organized by the Vietnam Institute for
+    Advanced Study in Mathematics (VIASM), Foreign Trade University, and the International University
+    (VNU-HCM). This year's edition gathered scientists, lecturers, and doctoral researchers from
+    across Vietnam and abroad, spanning four research domains: optimization, modeling, simulation, and
+    data analytics. Over 40 papers were presented, with selected works accepted for publication by
+    <strong>Springer</strong> in the <em>Optimization and Its Applications</em> series. International
+    keynote speakers included Professor Daniel Zhuoyu Long (The Chinese University of Hong Kong) and
+    Professor Yenming J. Chen (National Kaohsiung University of Science and Technology, Taiwan).
+  </p>
+
+  <!-- Conference info strip -->
+  <div class="info-strip">
+    <div class="info-cell">
+      <div class="ic-label">Conference</div>
+      <div class="ic-val">COMOSA 2026</div>
+    </div>
+    <div class="info-cell">
+      <div class="ic-label">Date &amp; Venue</div>
+      <div class="ic-val">Aug 7–8 · Foreign Trade University, Hanoi</div>
+    </div>
+    <div class="info-cell">
+      <div class="ic-label">Published by</div>
+      <div class="ic-val">Springer · Optimization and Its Applications</div>
+    </div>
+  </div>
+
+  <!-- SRT section -->
+  <div class="section-rule"><span>Stress Research Team</span></div>
+
+  <div class="img-inset">
+    <img src="comosa_srt.jpg" alt="Stress Research Team members at COMOSA 2026 main auditorium screen" />
+    <div class="img-caption">
+      <em>Photo: BRT-SRT Lab</em> &nbsp;·&nbsp; Stress Research Team (SRT) members in front of the COMOSA 2026 main conference screen at the VJCC Building, Foreign Trade University, Hanoi.
+    </div>
+  </div>
+
+  <p>
+    The Stress Research Team presented a cross-disciplinary study at the intersection of computational
+    finance, agent-based modeling, and large language models. Working alongside members of the Bio
+    Research Team, the SRT team addressed one of the most elusive phenomena in cryptocurrency markets:
+    the Bitcoin flash crash.
+  </p>
+
+  <div class="paper-box">
+    <div class="paper-box-label">Paper · Financial AI &amp; Market Simulation</div>
+    <h3>Behavioral Prior Elicitation via LLM for Heterogeneous-Agent Bitcoin Flash-Crash Simulation</h3>
+    <p>
+      This study proposes a four-stage pipeline that constructs a reproducible 100 ms BTCUSDT flash-crash
+      event panel from 66 detected events, elicits behavioral priors for four agent archetypes using an
+      offline large language model (Mistral-7B) conditioned on empirical microstructure anchors, and
+      instantiates a heterogeneous limit order book simulator with the validated priors. Across 500
+      simulation runs, LLM-elicited priors produced a crash rate of 0.176 versus 0.008 under uninformative
+      uniform priors. Counterfactual analysis using DAGMA and DirectLiNGAM identified leverage amplification
+      as the key local crash-amplification channel — reducing it by one standard deviation lowered the
+      predicted crash rate by 22.8%.
+    </p>
+    <div class="paper-meta-row">
+      <div class="paper-meta-item"><strong>Authors:</strong> Pham, Ngo, Nguyen P.T., Nguyen Q.M., Ngo T.H., Nguyen T.N.</div>
+      <div class="paper-meta-item"><strong>Venue:</strong> COMOSA 2026</div>
+      <div class="paper-meta-item"><strong>Read more:</strong> <a href="Comosa_BTC_Flash_Crash/blog.html" style="color:var(--accent);">Research blog →</a></div>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    <p>"Empirically anchored LLM elicitation can improve simulator fidelity and help identify plausible crash-amplification mechanisms in a controlled synthetic environment."</p>
+    <cite>— From the paper abstract</cite>
+  </div>
+
+  <!-- BRT section -->
+  <div class="section-rule"><span>Bio Research Team</span></div>
+
+  <p>
+    The Bio Research Team presented a clinical machine learning study targeting early risk stratification
+    of postoperative acute kidney injury — a frequent and serious complication after major non-cardiac
+    surgery. The work was distinguished by its rigorous leakage-aware evaluation design and its honest
+    characterisation of what waveform-only deep learning can and cannot achieve under strict early
+    prediction constraints.
+  </p>
+
+  <div class="paper-box">
+    <div class="paper-box-label">Paper · Physiological Signal Analysis</div>
+    <h3>A Leakage-Aware Multimodal Evaluation Framework for Early Intraoperative Acute Kidney Injury Prediction</h3>
+    <p>
+      This study proposes SynerT, a hybrid causal TCN and dilated recurrent backbone for encoding
+      intraoperative waveform trajectories within the first 60 minutes of surgery. Two extensions —
+      SynerT-MM (late-fusion multimodal) and SynerT-Stack (leakage-safe stacked ensemble) — are further
+      developed and evaluated on VitalDB (2,413 cases; 7.46% AKI prevalence). SynerT-Stack achieved
+      the best overall performance (AUROC 0.773, AUPRC 0.252, F1-max 0.367), and cross-fitted Platt
+      recalibration corrected calibration defects before decision-curve analysis confirmed the model's
+      clinical utility across low-to-intermediate risk thresholds.
+    </p>
+    <div class="paper-meta-row">
+      <div class="paper-meta-item"><strong>Authors:</strong> Nguyen Q.M., Le D.M., Nguyen H.N.M., Nguyen T.Q., Nguyen T.N.</div>
+      <div class="paper-meta-item"><strong>Venue:</strong> COMOSA 2026</div>
+      <div class="paper-meta-item"><strong>Read more:</strong> <a href="Synergy_blog/blog.html" style="color:var(--accent);">Research blog →</a></div>
+    </div>
+  </div>
+
+  <!-- BRT photos pair -->
+  <div class="img-pair">
+    <div class="img-pair-item">
+      <img src="comosa_brt2.jpg" alt="BRT student members at COMOSA 2026" />
+      <div class="img-caption">
+        <em>Photo: BRT-SRT Lab</em> &nbsp;·&nbsp; BRT student members at the COMOSA 2026 conference backdrop.
+      </div>
+    </div>
+    <div class="img-pair-item">
+      <img src="comosa_brt3.jpg" alt="BRT students celebrating at COMOSA 2026" />
+      <div class="img-caption">
+        <em>Photo: BRT-SRT Lab</em> &nbsp;·&nbsp; BRT students after their presentation at COMOSA 2026.
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Both teams are supervised by <strong>Asst. Prof. Trong-Nghia Nguyen</strong> (PhD), Faculty of Data
+    Science and Artificial Intelligence, National Economics University. The accepted papers will appear
+    in the Springer <em>Optimization and Its Applications</em> series following the conference.
+  </p>
+
+  <p>
+    The participation of both BRT and SRT at COMOSA 2026 reflects the lab's growing output across
+    interdisciplinary applied research — spanning clinical AI, computational finance, and physiological
+    signal analysis — and its commitment to disseminating work through peer-reviewed international venues.
+    The full research blogs for each paper are available on the lab website.
+  </p>
+
+  <!-- Tags -->
+  <div style="margin-top:36px; padding-top:20px; border-top:1px solid var(--rule);">
+    <div style="font-family:var(--font-ui); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;">Tags</div>
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+      <span class="tag">COMOSA 2026</span>
+      <span class="tag">Bio Research Team</span>
+      <span class="tag">Stress Research Team</span>
+      <span class="tag">Acute Kidney Injury</span>
+      <span class="tag">Bitcoin Flash Crash</span>
+      <span class="tag">Agent-Based Simulation</span>
+      <span class="tag">Clinical AI</span>
+      <span class="tag">Springer</span>
+      <span class="tag">National Economics University</span>
+    </div>
+  </div>
+
+</article>
+
+<div class="article-footer">
+  <div class="article-footer-lab">
+    <strong>BRT-SRT Lab</strong> · Faculty of Data Science and Artificial Intelligence · National Economics University<br>
+    <a href="index.html">← Back to lab homepage</a>
+  </div>
+</div>
+
+</body>
+</html>
