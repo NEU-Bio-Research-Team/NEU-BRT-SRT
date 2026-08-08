@@ -69,7 +69,7 @@ function newsItemTemplate(item) {
   const href = item.link ? item.link : `post-detail.html?id=${encodeURIComponent(item.id)}`;
 
   return `
-    <article class="card news-item" role="article">
+    <article class="card news-item" role="article" onclick="location.href='${href}'" style="cursor:pointer;">
       <div class="news-date">
         <span class="news-date__day">${d.day}</span>
         <span class="news-date__month">${d.monthYear}</span>

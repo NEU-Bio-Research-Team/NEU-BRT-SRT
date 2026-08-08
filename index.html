@@ -131,7 +131,7 @@
             const d = formatNewsDate(item.date);
             const href = item.link ? item.link : `post-detail.html?id=${encodeURIComponent(item.id)}`;
             return `
-              <article class="card news-item news-item--compact">
+              <article class="card news-item news-item--compact" onclick="location.href='${href}'" style="cursor:pointer;">
                 <div class="news-date">
                   <span class="news-date__day">${d.day}</span>
                   <span class="news-date__month">${d.monthYear}</span>
