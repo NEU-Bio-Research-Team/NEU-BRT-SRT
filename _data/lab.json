@@ -18,8 +18,8 @@
       "desc": "Deep learning on molecular representations (SMILES sequences and molecular graphs) for drug property prediction — including toxicity screening, bioactivity, and ADMET profiling using multimodal fusion architectures.",
       "posts": [
         {
-          "title": "Advancing Clinical Toxicity Prediction Through Multimodal Fusion of SMILES Sequences and Molecular Graph Representation",
-          "venue": "CITA 2026",
+          "title": "SMILESGNN: Interpretable Clinical Toxicity Prediction via SMILES-Graph Cross-Attention Fusion",
+          "venue": "MAPR 2026",
           "type": "Conference",
           "year": 2026,
           "authors": ["Thuy-Quynh Nguyen", "Trong-Nghia Nguyen", "Quang-Minh Nguyen", "Duc-Minh Le", "Nhat-Minh Nguyen Ho", "Thanh-Long Dai Doan"],
