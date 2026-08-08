@@ -50,8 +50,8 @@
       "desc": "Deep learning models for early clinical risk prediction from intraoperative and physiological time-series signals — including AKI and haemodynamic deterioration detection to support real-time surgical decision support.",
       "posts": [
         {
-          "title": "Physiological Trajectory Modeling for Early Prediction of Acute Kidney Injury During Surgery",
-          "venue": "CITA 2026",
+          "title": "A Leakage-Aware Multimodal Evaluation Framework for Early Intraoperative Acute Kidney Injury Prediction",
+          "venue": "COMOSA 2026",
           "type": "Conference",
           "year": 2026,
           "authors": ["Quang-Minh Nguyen", "Trong-Nghia Nguyen", "Thuy-Quynh Nguyen", "Duc-Minh Le", "Nhat-Minh Nguyen Ho"],

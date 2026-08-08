@@ -1,20 +1,20 @@
 [
   {
-    "id": "news-2026-08-08-comosa",
+    "id": "news-2026-07-07-comosa",
     "category": "Publication",
-    "date": "2026-08-08",
-    "title": "BTC Flash-Crash simulation paper accepted at COMOSA 2026",
-    "body": "Our paper <em>Behavioral Prior Elicitation via LLM for Heterogeneous-Agent Bitcoin Flash-Crash Simulation</em> has been accepted at the Conference on Optimization, Modeling, Simulation, and Analytics (COMOSA 2026).",
-    "link": "Comosa_BTC_Flash_Crash/blog.html",
+    "date": "2026-07-07",
+    "title": "Two papers accepted at COMOSA 2026",
+    "body": "Two of our papers have been accepted at the Conference on Optimization, Modeling, Simulation, and Analytics (COMOSA 2026, Aug 7–8, Hanoi): <em>Behavioral Prior Elicitation via LLM for Heterogeneous-Agent Bitcoin Flash-Crash Simulation</em> and <em>A Leakage-Aware Multimodal Evaluation Framework for Early Intraoperative Acute Kidney Injury Prediction</em>.",
+    "link": "https://comosa.vn/",
     "pinned": true
   },
   {
-    "id": "news-2026-08-08",
+    "id": "news-2026-07-13-mapr",
     "category": "Publication",
-    "date": "2026-08-08",
+    "date": "2026-07-13",
     "title": "SMILESGNN paper accepted at MAPR 2026",
-    "body": "Our paper <em>SMILESGNN: Interpretable Clinical Toxicity Prediction via SMILES-Graph Cross-Attention Fusion</em> has been accepted at the 9th International Conference on Multimedia Analysis and Pattern Recognition (MAPR 2026).",
+    "body": "Our paper <em>SMILESGNN: Interpretable Clinical Toxicity Prediction via SMILES-Graph Cross-Attention Fusion</em> has been accepted at the 9th International Conference on Multimedia Analysis and Pattern Recognition (MAPR 2026, Aug 13–14, Hue).",
     "link": "Smiles_blog/blog.html",
-    "pinned": true
+    "pinned": false
   }
 ]
