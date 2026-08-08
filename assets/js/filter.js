@@ -66,7 +66,7 @@ function filteredNews() {
 function newsItemTemplate(item) {
   const d = formatNewsDate(item.date);
   const catClass = newsCategoryClass(item.category);
-  const href = `post-detail.html?id=${encodeURIComponent(item.id)}`;
+  const href = item.link ? item.link : `post-detail.html?id=${encodeURIComponent(item.id)}`;
 
   return `
     <article class="card news-item" role="article">

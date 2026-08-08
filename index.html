@@ -129,6 +129,7 @@
 
           latestNewsEl.innerHTML = latest.map((item) => {
             const d = formatNewsDate(item.date);
+            const href = item.link ? item.link : `post-detail.html?id=${encodeURIComponent(item.id)}`;
             return `
               <article class="card news-item news-item--compact">
                 <div class="news-date">
@@ -140,9 +141,9 @@
                     ${item.pinned ? '<span class="badge badge--pin">Pinned</span>' : ''}
                     <span class="badge ${newsCategoryClass(item.category)}">${sanitize(item.category)}</span>
                   </div>
-                  <a class="news-title" href="post-detail.html?id=${encodeURIComponent(item.id)}">${sanitize(item.title)}</a>
+                  <a class="news-title" href="${href}">${sanitize(item.title)}</a>
                 </div>
-                <a class="news-arrow" href="post-detail.html?id=${encodeURIComponent(item.id)}" aria-label="Open news">></a>
+                <a class="news-arrow" href="${href}" aria-label="Open news">></a>
               </article>`;
           }).join('');
         }
