@@ -1,5 +1,14 @@
 [
   {
+    "id": "news-2026-09-17-mapr-coverage",
+    "category": "Event",
+    "date": "2026-09-17",
+    "title": "BRT at MAPR 2026 — Hue",
+    "body": "Members of the Bio Research Team presented <em>SMILESGNN: Interpretable Clinical Toxicity Prediction via SMILES-Graph Cross-Attention Fusion</em> at MAPR 2026 (Aug 13–14, Hue City). The paper is now published in IEEE Xplore. Read our conference coverage, including the presentation recording.",
+    "link": "mapr_2026.html",
+    "pinned": false
+  },
+  {
     "id": "news-2026-08-08-comosa-coverage",
     "category": "Event",
     "date": "2026-08-08",

@@ -197,5 +197,26 @@
                           "image":  "assets/images/BRT.jpg"
                       }
                   ]
+    },
+    {
+        "id":  "ngo-anh-tu",
+        "name":  "Ngô Anh Tú",
+        "professional_level":  "",
+        "role":  "",
+        "role_key":  "",
+        "department":  "",
+        "email":  "",
+        "research_scope":  "",
+        "start_date":  "",
+        "source_photo_url":  "",
+        "photo":  "",
+        "team":  "Bio Research Team",
+        "teams":  [
+                      {
+                          "code":  "BRT",
+                          "name":  "BRT",
+                          "image":  "assets/images/BRT.jpg"
+                      }
+                  ]
     }
 ]

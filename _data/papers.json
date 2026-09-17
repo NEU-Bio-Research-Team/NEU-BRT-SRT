@@ -1,5 +1,35 @@
 [
     {
+        "id":  "nguyen2026smilesgnn",
+        "title":  "SMILESGNN: Interpretable Clinical Toxicity Prediction via SMILES-Graph Cross-Attention Fusion",
+        "authors":  [
+                        "Quang-Minh Nguyen",
+                        "Thuy-Quynh Nguyen",
+                        "Duc-Minh Le",
+                        "Ho-Nhat-Minh Nguyen",
+                        "Thanh-Long Dai Doan",
+                        "Trong-Nghia Nguyen"
+                    ],
+        "venue":  "2026 International Conference on Multimedia Analysis and Pattern Recognition (MAPR)",
+        "type":  "Conference",
+        "year":  2026,
+        "volume":  "",
+        "pages":  "466--471",
+        "doi":  "https://doi.org/10.1109/MAPR72750.2026.11685822",
+        "pdf":  "",
+        "if":  null,
+        "jcr":  null,
+        "abstract":  "",
+        "keywords":  [
+                         "Clinical toxicity prediction",
+                         "Multimodal deep learning",
+                         "SMILES",
+                         "Graph neural networks",
+                         "Cross-attention fusion"
+                     ],
+        "highlighted":  false
+    },
+    {
         "id":  "ulziisaikhan2026band2clean",
         "title":  "Band2CleanFormer: Integrating band-specific processing and inter-band attention for robust EEG denoising",
         "authors":  [
