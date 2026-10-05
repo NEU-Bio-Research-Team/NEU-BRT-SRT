@@ -1,5 +1,33 @@
 [
     {
+        "id":  "nguyen2026painpresence",
+        "title":  "Pain Presence, Not Location: A Causal and Information-Theoretic Analysis of Pain Assessment from Peripheral Physiology",
+        "authors":  [
+                        "Hong-Hai Nguyen",
+                        "Thuy Thi Pham",
+                        "Trong-Nghia Nguyen",
+                        "Van-Thong Huynh"
+                    ],
+        "venue":  "2026 14th International Conference on Affective Computing and Intelligent Interaction Workshops and Demos (ACIIW)",
+        "type":  "Conference",
+        "year":  2026,
+        "volume":  "",
+        "pages":  "1--7",
+        "doi":  "https://doi.org/10.1109/ACIIW71585.2026.11712100",
+        "pdf":  "",
+        "if":  null,
+        "jcr":  null,
+        "abstract":  "",
+        "keywords":  [
+                         "Pain assessment",
+                         "Peripheral physiology",
+                         "Physiological signals",
+                         "Pain detection",
+                         "Autonomic responses"
+                     ],
+        "highlighted":  false
+    },
+    {
         "id":  "nguyen2026smilesgnn",
         "title":  "SMILESGNN: Interpretable Clinical Toxicity Prediction via SMILES-Graph Cross-Attention Fusion",
         "authors":  [
