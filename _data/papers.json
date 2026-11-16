@@ -1,5 +1,37 @@
 [
     {
+        "id":  "do2026riskhgt",
+        "title":  "Multi-Type Clinical Interaction Modeling for Identifying Factors Associated with Cardiovascular Disease in Obstructive Sleep Apnea via an Interpretable Heterogeneous Graph Transformer",
+        "authors":  [
+                        "Thanh-Cong Do",
+                        "Hyung-Jeong Yang",
+                        "Myungeun Lee",
+                        "Jinwon Heo",
+                        "Hyung-Chae Yang",
+                        "Jaehun Choi",
+                        "Duy-Phuong Dao",
+                        "Trong-Nghia Nguyen"
+                    ],
+        "venue":  "Healthcare",
+        "type":  "Journal",
+        "year":  2026,
+        "volume":  "14",
+        "pages":  "3869",
+        "doi":  "https://doi.org/10.3390/healthcare14223869",
+        "pdf":  "",
+        "if":  2.7,
+        "jcr":  "SCIE",
+        "abstract":  "Background/Objectives: Obstructive sleep apnea (OSA) is a prevalent sleep disorder strongly associated with an increased risk of cardiovascular disease (CVD). The relationship between OSA and CVD is complex, involving multiple physiological and clinical factors. Identifying key contributors to cardiovascular risk in OSA patients is essential for early intervention, personalized treatment, and improved patient outcomes. Methods: We propose a heterogeneous graph learning model, RiskHGT, to identify influential clinical factors and interaction patterns associated with CVD in a cross-sectional analysis distinguishing OSA patients with and without prevalent CVD. By leveraging the advantages of heterogeneous graphs in modeling multi-relational medical data, RiskHGT captures intricate relationships among clinical factors and enables interpretation of the most influential factors associated with CVD in OSA patients. The model was trained and evaluated on two large-scale clinical sleep cohorts, the Sleep Heart Health Study (SHHS) and the Multi-Ethnic Study of Atherosclerosis (MESA), with predictive performance assessed using the area under the receiver operating characteristic curve (AUROC) and the area under the precision-recall curve (AUPRC). Results: RiskHGT achieved superior predictive performance compared with baseline machine learning and graph-based models, reaching an AUROC of up to 0.94 and an AUPRC of up to 0.90. Fasting glucose, diastolic blood pressure, smoking status, and age were identified as the factors most strongly associated with CVD in OSA patients. Conclusions: RiskHGT provides interpretable, attention-based insights into clinical factors associated with CVD in patients with OSA. The framework may have potential for clinical use, but external and prospective validation is required before any clinical application.",
+        "keywords":  [
+                         "Obstructive sleep apnea",
+                         "Cardiovascular disease",
+                         "Graph neural networks",
+                         "Heterogeneous graph",
+                         "Attention mechanism"
+                     ],
+        "highlighted":  false
+    },
+    {
         "id":  "nguyen2026painpresence",
         "title":  "Pain Presence, Not Location: A Causal and Information-Theoretic Analysis of Pain Assessment from Peripheral Physiology",
         "authors":  [
